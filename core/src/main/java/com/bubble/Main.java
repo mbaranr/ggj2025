@@ -1,4 +1,4 @@
-package com.firstgame;
+package com.bubble;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

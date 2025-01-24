@@ -58,7 +58,7 @@ configure(subprojects) {
 
 subprojects {
   version = '$projectVersion'
-  ext.appName = 'GGJ2025'
+  ext.appName = 'ggj2025'
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
@@ -70,4 +70,4 @@ subprojects {
   }
 }
 
-eclipse.project.name = 'GGJ2025' + '-parent'
+eclipse.project.name = 'ggj2025' + '-parent'
