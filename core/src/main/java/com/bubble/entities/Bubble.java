@@ -92,35 +92,35 @@ public class Bubble extends Entity implements Subscriber {
             case RUN_RIGHT:
             case IDLE_RIGHT:
                 if (creator.facingRight) {
-                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y);
+                    setPosition(creator.getPosition().x + this.width / (2 * Constants.PPM), creator.getPosition().y);
                     this.shootigDirection.x = Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = 0;
                 } else {
-                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y);
+                    setPosition(creator.getPosition().x - this.width / (2 * Constants.PPM), creator.getPosition().y);
                     this.shootigDirection.x = -Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = 0;
                 }
                 break;
             case RUN_DOWN:
             case IDLE_DOWN:
-                setPosition(creator.getPosition().x, creator.getPosition().y - 32 / Constants.PPM);
+                setPosition(creator.getPosition().x, creator.getPosition().y - this.width / (2 * Constants.PPM));
                 this.shootigDirection.x = 0;
                 this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 break;
             case RUN_UP:
             case IDLE_UP:
-                setPosition(creator.getPosition().x, creator.getPosition().y + 32 / Constants.PPM);
+                setPosition(creator.getPosition().x, creator.getPosition().y + this.width / (2 * Constants.PPM));
                 this.shootigDirection.x = 0;
                 this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 break;
             case RUN_UP_RIGHT:
             case IDLE_UP_RIGHT:
                 if (creator.facingRight) {
-                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y + 32 / Constants.PPM);
+                    setPosition(creator.getPosition().x + this.width / (2 * Constants.PPM), creator.getPosition().y + this.width / (2 * Constants.PPM));
                     this.shootigDirection.x = Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 } else {
-                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y + 32 / Constants.PPM);
+                    setPosition(creator.getPosition().x - this.width / (2 * Constants.PPM), creator.getPosition().y + this.width / (2 * Constants.PPM));
                     this.shootigDirection.x = -Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 }
@@ -128,11 +128,11 @@ public class Bubble extends Entity implements Subscriber {
             case RUN_DOWN_RIGHT:
             case IDLE_DOWN_RIGHT:
                 if (creator.facingRight) {
-                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y - 32 / Constants.PPM);
+                    setPosition(creator.getPosition().x + this.width / (2 * Constants.PPM), creator.getPosition().y - this.width / (2 * Constants.PPM));
                     this.shootigDirection.x = Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 } else {
-                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y - 32 / Constants.PPM);
+                    setPosition(creator.getPosition().x - this.width / (2 * Constants.PPM), creator.getPosition().y - this.width / (2 * Constants.PPM));
                     this.shootigDirection.x = -Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 }
