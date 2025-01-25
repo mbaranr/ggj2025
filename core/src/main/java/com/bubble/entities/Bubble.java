@@ -58,35 +58,6 @@ public class Bubble extends Entity implements Subscriber {
     }
 
 
-    public void iWantToBreakFree(Vector2 direction, int x, int y) {
-        //
-//        switch (movementState) {
-//            case RIGHT:
-//                b2body.applyLinearImpulse(new Vector2(0.5f, 0), b2body.getWorldCenter(), true);
-//                break;
-//            case LEFT:
-//                b2body.applyLinearImpulse(new Vector2(-0.5f, 0), b2body.getWorldCenter(), true);
-//                break;
-//            case UP:
-//                b2body.applyLinearImpulse(new Vector2(0.0f, 0.5f), b2body.getWorldCenter(), true);
-//                break;
-//            case DOWN:
-//                b2body.applyLinearImpulse(new Vector2(0, -0.5f), b2body.getWorldCenter(), true);
-//                break;
-//            case UPRIGHT:
-//                b2body.applyLinearImpulse(new Vector2(0.5f, 0.5f), b2body.getWorldCenter(), true);
-//                break;
-//            case UPLEFT:
-//                b2body.applyLinearImpulse(new Vector2(-0.5f, 0.5f), b2body.getWorldCenter(), true);
-//                break;
-//            case DOWNRIGHT:
-//                b2body.applyLinearImpulse(new Vector2(0.5f, -0.5f), b2body.getWorldCenter(), true);
-//                break;
-//            case DOWNLEFT:
-//                b2body.applyLinearImpulse(new Vector2(-0.5f, -0.5f), b2body.getWorldCenter(), true);
-//                break;
-    }
-
     public void handlePosition() {
         switch (creator.getCurrAState()) {
             case RUN_RIGHT:
@@ -174,15 +145,33 @@ public class Bubble extends Entity implements Subscriber {
                     timer.start(Constants.TTP, "pop", this);
                 }
             }
-
         }
         else {
-//            System.out.println(shootigDirection.x);
 //            b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
             b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
         }
 
 
+    }
+
+    public void bubbleMerge(Bubble incomingBubble) {
+        if (incomingBubble.width == this.width && incomingBubble.height == this.height) {
+            b2body.destroyFixture(b2body.getFixtureList().get(0));
+            incomingBubble.pop();
+            entityHandler.addEntityOperation(incomingBubble, "pop");
+        }
+        else{
+            this.shootigDirection = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
+
+            this.width += incomingBubble.width;
+            this.height += incomingBubble.height;
+
+            circle.setRadius(this.width / Constants.PPM / 2);
+            fdef.shape = circle;
+
+            b2body.destroyFixture(b2body.getFixtureList().get(0));
+            b2body.createFixture(fdef).setUserData(this);
+        }
     }
 
     public void notify(String flag) {
