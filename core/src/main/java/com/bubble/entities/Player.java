@@ -68,6 +68,7 @@ public class Player extends Entity implements Subscriber {
         handleMovement();
 
         // Animation priority
+
 //        if (isStateActive(Constants.PSTATE.DYING)) {
 //          currAState = Constants.ASTATE.DEATH;
 //        } else if (isStateActive(Constants.PSTATE.ATTACKING)) {
@@ -216,7 +217,7 @@ public class Player extends Entity implements Subscriber {
         }
     }
 
-    public void looseControl() {
+    public void looseControl() { // Remove THIS
         movementState = Constants.MSTATE.PREV;
         timer.start(0.4f, "stop", this);
     }
@@ -252,9 +253,9 @@ public class Player extends Entity implements Subscriber {
         }
     }
 
-    public boolean isFalling() { return b2body.getLinearVelocity().y < 0; }
+    public boolean isFalling() { return b2body.getLinearVelocity().y < 0; } // REMOVE THIS
 
-    public void setWallState(int wallState) { this.wallState = wallState; }
+    public void setWallState(int wallState) { this.wallState = wallState; } // REMOVE THIS
 
     public int getWallState() { return wallState; }
 
