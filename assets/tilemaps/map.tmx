@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.0" orientation="orthogonal" renderorder="right-down" width="60" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.0" orientation="orthogonal" renderorder="right-down" width="60" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="11">
  <tileset firstgid="1" source="temp.tsx"/>
  <layer id="1" name="Tile Layer 1" width="60" height="32">
   <data encoding="csv">
@@ -37,4 +37,10 @@
 114,39,37,83,38,52,112,67,82,99,112,113,98,37,83,82,69,69,98,69,37,38,84,69,54,99,98,84,99,54,112,52,67,38,82,52,37,68,112,68,39,52,84,69,99,38,98,82,113,84,99,38,98,99,98,83,114,83,38,83
 </data>
  </layer>
+ <objectgroup id="2" name="ground">
+  <object id="2" x="448" y="96" width="224" height="832"/>
+  <object id="3" x="352" y="96" width="1280" height="224"/>
+  <object id="4" x="256" y="704" width="1568" height="128"/>
+  <object id="10" x="1216" y="96" width="256" height="768"/>
+ </objectgroup>
 </map>
