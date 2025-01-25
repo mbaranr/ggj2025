@@ -42,7 +42,7 @@ public class ParticleHandler {
         airLeft.scaleEffect(scaleFactor);
 
         ParticleEffect aura = new ParticleEffect();
-        aura.load(Gdx.files.internal("particles/aura.p"), Gdx.files.internal("Particles"));
+        aura.load(Gdx.files.internal("particles/aura.p"), Gdx.files.internal("particles"));
         aura.scaleEffect(scaleFactor);
 
         airRightEffectPool = new ParticleEffectPool(airRight, 1, 2);
