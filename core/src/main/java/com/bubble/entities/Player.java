@@ -16,7 +16,7 @@ public class Player extends Entity implements Subscriber {
     protected final MyTimer timer;
     protected final World world;
     protected int wallState;  // -1 for left, 1 for right, 0 for none
-    protected Constants.MSTATE movementState;
+    protected final LinkedList<Constants.MSTATE> movementStates;
     protected Constants.ASTATE currAState;     // Current animation state
     protected Constants.ASTATE prevAState;     // Previous animation state
     protected final EnumSet<Constants.PSTATE> playerStates;       // Set of player states
@@ -45,7 +45,7 @@ public class Player extends Entity implements Subscriber {
         addPlayerState(Constants.PSTATE.ON_GROUND);
         currAState = Constants.ASTATE.IDLE;
         prevAState = Constants.ASTATE.IDLE;
-        movementState = Constants.MSTATE.STILL;
+        movementStates = new LinkedList<>();
 
         wallState = 0;
         floorContacts = 0;
@@ -62,9 +62,8 @@ public class Player extends Entity implements Subscriber {
 
         // Capping y velocity
 
-        if (isStateActive(Constants.PSTATE.DYING)) movementState = Constants.MSTATE.STILL;
-        else if (isStateActive(Constants.PSTATE.STUNNED)) movementState = Constants.MSTATE.PREV;
-
+        if (isStateActive(Constants.PSTATE.DYING)) movementStates.clear();
+        else if (isStateActive(Constants.PSTATE.STUNNED)) movementStates.clear();
         handleMovement();
 
         // Animation priority
@@ -92,55 +91,49 @@ public class Player extends Entity implements Subscriber {
     }
 
     public void handleMovement() {
-        switch (movementState) {
+        
+        if (movementStates.size() == 0) { b2body.setLinearVelocity(0, 0); return; }
+
+        int size = movementStates.size();
+        Constants.MSTATE state = movementStates.get(size - 1);
+        Constants.MSTATE prevState;
+        if (size == 1) {
+            prevState = null;
+        } else {
+            prevState = movementStates.get(size - 2);
+        }
+
+        switch (state) {
             case LEFT:
                 currAState = Constants.ASTATE.RUN;
                 facingRight = false;
-                moveLeft();
+                if (prevState == null || prevState == Constants.MSTATE.RIGHT) { moveLeft(); }
+                if (prevState == Constants.MSTATE.UP) { moveUpLeft(); }
+                if (prevState == Constants.MSTATE.DOWN) { moveDownLeft(); }
                 break;
 
             case RIGHT:
                 currAState = Constants.ASTATE.RUN;
-                facingRight = true;
-                moveRight();
+                facingRight = false;
+                if (prevState == null || prevState == Constants.MSTATE.LEFT) { moveRight(); }
+                if (prevState == Constants.MSTATE.UP) { moveUpRight(); }
+                if (prevState == Constants.MSTATE.DOWN) { moveDownRight(); }
                 break;
 
             case UP:
                 currAState = Constants.ASTATE.RUN;
-                moveUp();
+                facingRight = false;
+                if (prevState == null || prevState == Constants.MSTATE.DOWN) { moveUp(); }
+                if (prevState == Constants.MSTATE.RIGHT) { moveUpRight(); }
+                if (prevState == Constants.MSTATE.LEFT) { moveUpLeft(); }
                 break;
 
             case DOWN:
                 currAState = Constants.ASTATE.RUN;
-                moveDown();
-                break;
-
-            case UPRIGHT:
-                currAState = Constants.ASTATE.RUN;
-                facingRight = true;
-                moveUpRight();
-                break;
-
-            case UPLEFT:
-                currAState = Constants.ASTATE.RUN;
                 facingRight = false;
-                moveUpLeft();
-                break;
-
-            case DOWNRIGHT:
-                currAState = Constants.ASTATE.RUN;
-                facingRight = true;
-                moveDownRight();
-                break;
-
-            case DOWNLEFT:
-                currAState = Constants.ASTATE.RUN;
-                facingRight = false;
-                moveDownLeft();
-                break;
-
-            case STILL:
-                b2body.setLinearVelocity(0, 0);
+                if (prevState == null || prevState == Constants.MSTATE.UP) { moveDown(); }
+                if (prevState == Constants.MSTATE.RIGHT) { moveDownRight(); }
+                if (prevState == Constants.MSTATE.LEFT) { moveDownLeft(); }
                 break;
         }
     }
@@ -202,7 +195,7 @@ public class Player extends Entity implements Subscriber {
                 removePlayerState(Constants.PSTATE.LANDING);
                 break;
             case "stop":
-                movementState = Constants.MSTATE.STILL;
+                // movementState = Constants.MSTATE.STILL;
                 break;
             case "hit":
                 removePlayerState(Constants.PSTATE.HIT);
@@ -215,11 +208,6 @@ public class Player extends Entity implements Subscriber {
                 util.getEntityHandler().addEntityOperation(this, "die");
                 break;
         }
-    }
-
-    public void looseControl() { // Remove THIS
-        movementState = Constants.MSTATE.PREV;
-        timer.start(0.4f, "stop", this);
     }
 
     public void stun(float seconds) {
@@ -259,9 +247,9 @@ public class Player extends Entity implements Subscriber {
 
     public int getWallState() { return wallState; }
 
-    public void setMovementState(Constants.MSTATE direction) { this.movementState = direction; }
+    public void addMovementState(Constants.MSTATE direction) { this.movementStates.add(direction); }
 
-    public Constants.MSTATE getMovementState() { return movementState; }
+    public void removeMovementState(Constants.MSTATE direction) { this.movementStates.remove(direction); }
 
     public void addPlayerState(Constants.PSTATE state) { playerStates.add(state); }
 

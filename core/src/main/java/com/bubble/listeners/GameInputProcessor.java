@@ -39,31 +39,30 @@ public class GameInputProcessor implements InputProcessor {
         switch (keycode) {
             // Player 1 Movement
             case Input.Keys.D:
-                if (p1.getMovementState() == Constants.MSTATE.UP){p1.setMovementState(Constants.MSTATE.UPRIGHT);
-                } else {p1.setMovementState(Constants.MSTATE.RIGHT);}// P1 move right
+                p1.addMovementState(Constants.MSTATE.RIGHT);
                 break;
             case Input.Keys.A: // P1 move left
-                p1.setMovementState(Constants.MSTATE.LEFT);
+                p1.addMovementState(Constants.MSTATE.LEFT);
                 break;
             case Input.Keys.W: // P1 move up
-                p1.setMovementState(Constants.MSTATE.UP);
+                p1.addMovementState(Constants.MSTATE.UP);
                 break;
             case Input.Keys.S: // P1 move down
-                p1.setMovementState(Constants.MSTATE.DOWN);
+                p1.addMovementState(Constants.MSTATE.DOWN);
                 break;
 
             // Player 2 Movement
             case Input.Keys.RIGHT: // P2 move right
-                p2.setMovementState(Constants.MSTATE.RIGHT);
+                p2.addMovementState(Constants.MSTATE.RIGHT);
                 break;
             case Input.Keys.LEFT: // P2 move left
-                p2.setMovementState(Constants.MSTATE.LEFT);
+                p2.addMovementState(Constants.MSTATE.LEFT);
                 break;
             case Input.Keys.UP: // P2 move up
-                p2.setMovementState(Constants.MSTATE.UP);
+                p2.addMovementState(Constants.MSTATE.UP);
                 break;
             case Input.Keys.DOWN: // P2 move down
-                p2.setMovementState(Constants.MSTATE.DOWN);
+                p2.addMovementState(Constants.MSTATE.DOWN);
                 break;
 
             default:
@@ -126,20 +125,31 @@ public class GameInputProcessor implements InputProcessor {
         switch (keycode) {
             // Player 1 Movement Stop
             case Input.Keys.D:
+                p1.removeMovementState(Constants.MSTATE.RIGHT);
+                break;
             case Input.Keys.A:
+                p1.removeMovementState(Constants.MSTATE.LEFT);
+                break;
             case Input.Keys.W:
+                p1.removeMovementState(Constants.MSTATE.UP);
+                    break;
             case Input.Keys.S:
-                p1.setMovementState(Constants.MSTATE.STILL);
+                p1.removeMovementState(Constants.MSTATE.DOWN);
                 break;
 
             // Player 2 Movement Stop
             case Input.Keys.RIGHT:
+                p2.removeMovementState(Constants.MSTATE.RIGHT);
+                    break;
             case Input.Keys.LEFT:
-            case Input.Keys.UP:
-            case Input.Keys.DOWN:
-                p2.setMovementState(Constants.MSTATE.STILL);
+                p2.removeMovementState(Constants.MSTATE.LEFT);
                 break;
-
+            case Input.Keys.UP:
+                p2.removeMovementState(Constants.MSTATE.UP);
+                break;
+            case Input.Keys.DOWN:
+                p2.removeMovementState(Constants.MSTATE.DOWN);
+                break;
             default:
                 break;
         }
