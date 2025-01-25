@@ -58,7 +58,6 @@ public class MyTimer implements Publisher {
         }
     }
 
-
     @Override
     public void addSubscriber(Subscriber subscriber) {
         subscribers.add(subscriber);

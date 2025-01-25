@@ -10,6 +10,7 @@ import com.bubble.tools.MyTimer;
 import com.bubble.helpers.Subscriber;
 import com.bubble.helpers.Constants;
 import java.util.EnumSet;
+import com.bubble.tools.UtilityStation;
 import java.util.LinkedList;
 
 public abstract class PlayableCharacter extends Entity implements Subscriber {
@@ -22,13 +23,15 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
     protected final EnumSet<Constants.PSTATE> playerStates;       // Set of player states
     protected int floorContacts; // Number of contacts with the floor to avoid anomalies
     protected int airIterations;
+    protected UtilityStation util;
     private LinkedList<Interactable> interactablesInRange;
 
-    public PlayableCharacter(World world, int id, MyTimer timer, MyResourceManager myResourceManager) {
+    public PlayableCharacter(World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation util) {
 
         super(id, myResourceManager);
         this.timer = timer;
         this.world = world;
+        this.util = util;
 
         lives = 3;
         interactablesInRange = new LinkedList<>();
@@ -46,8 +49,6 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
     }
 
     public void update(float delta) {
-
-        if (!util.getCharacterCycle().getCurrentCharacter().equals(this) && enemyController != null) enemyController.update();
 
         // Capping y velocity
         if (b2body.getLinearVelocity().y < -Constants.MAX_SPEED_Y)

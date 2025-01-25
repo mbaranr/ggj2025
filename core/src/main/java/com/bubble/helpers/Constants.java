@@ -29,10 +29,18 @@ public class Constants {
     public enum ASTATE {
         RUN, JUMP, IDLE, FALL, LAND, OPEN, CLOSED, ATTACK, DEATH
     }
+
+    public enum SCREEN_OP {
+        START, RESUME, GAME, EXIT, RESTART 
+    }
+
+    //Slide transition directions
+    public enum SLIDE_DIR {
+        SLIDE_UP, SLIDE_DOWN, SLIDE_RIGHT, SLIDE_LEFT
+    }
     
     public static final short BIT_GROUND = 2;   // Includes ground and walls (because sometimes the ground can be a wall)
     public static final short BIT_HAZARD = 4;
-    public static final short BIT_ROV = 32;
-    public static final short BIT_SUPPORT = 64;
-    public static final short BIT_LIGHT = 256;
+    public static final short BIT_PlAYER = 8;
+    public static final short BIT_LIGHT = 16;
 }

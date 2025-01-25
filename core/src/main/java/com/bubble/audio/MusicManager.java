@@ -1,4 +1,4 @@
-package com.bubble.Audio;
+package com.bubble.audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 

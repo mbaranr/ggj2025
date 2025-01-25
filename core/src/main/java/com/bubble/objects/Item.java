@@ -1,12 +1,12 @@
-package com.mygdx.Objects;
+package com.bubble.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.Graphics.ShaderHandler;
-import com.mygdx.Helpers.Constants;
-import com.mygdx.Sprites.B2Sprite;
-import com.mygdx.Tools.MyResourceManager;
+import com.bubble.graphics.ShaderHandler;
+import com.bubble.helpers.Constants;
+import com.bubble.sprites.B2Sprite;
+import com.bubble.tools.MyResourceManager;
 
 public class Item extends B2Sprite {
 
@@ -37,7 +37,7 @@ public class Item extends B2Sprite {
         fdef.shape = polygonShape;
         fdef.isSensor = true;
         fdef.filter.categoryBits = Constants.BIT_GROUND;
-        fdef.filter.maskBits = Constants.BIT_MAGE;
+        fdef.filter.maskBits = Constants.BIT_PlAYER;
         b2body.createFixture(fdef).setUserData(this);
     }
 

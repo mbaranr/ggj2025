@@ -1,4 +1,4 @@
-package com.bubble.Graphics;
+package com.bubble.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -26,23 +26,23 @@ public class ParticleHandler {
         // Initializing particle effects
 
         ParticleEffect dustGround = new ParticleEffect();
-        dustGround.load(Gdx.files.internal("Particles/dust_ground.p"), Gdx.files.internal("Particles"));
+        dustGround.load(Gdx.files.internal("particles/dust_ground.p"), Gdx.files.internal("Particles"));
         dustGround.scaleEffect(scaleFactor);
 
         ParticleEffect dustWall = new ParticleEffect();
-        dustWall.load(Gdx.files.internal("Particles/dust_wall.p"), Gdx.files.internal("Particles"));
+        dustWall.load(Gdx.files.internal("particles/dust_wall.p"), Gdx.files.internal("Particles"));
         dustWall.scaleEffect(scaleFactor);
 
         ParticleEffect airRight = new ParticleEffect();
-        airRight.load(Gdx.files.internal("Particles/air_right.p"), Gdx.files.internal("Particles"));
+        airRight.load(Gdx.files.internal("particles/air_right.p"), Gdx.files.internal("Particles"));
         airRight.scaleEffect(scaleFactor);
 
         ParticleEffect airLeft = new ParticleEffect();
-        airLeft.load(Gdx.files.internal("Particles/air_left.p"), Gdx.files.internal("Particles"));
+        airLeft.load(Gdx.files.internal("particles/air_left.p"), Gdx.files.internal("Particles"));
         airLeft.scaleEffect(scaleFactor);
 
         ParticleEffect aura = new ParticleEffect();
-        aura.load(Gdx.files.internal("Particles/aura.p"), Gdx.files.internal("Particles"));
+        aura.load(Gdx.files.internal("particles/aura.p"), Gdx.files.internal("Particles"));
         aura.scaleEffect(scaleFactor);
 
         airRightEffectPool = new ParticleEffectPool(airRight, 1, 2);

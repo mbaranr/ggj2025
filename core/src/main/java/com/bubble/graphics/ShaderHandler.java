@@ -1,9 +1,9 @@
-package com.bubble.Screens.Graphics;
+package com.bubble.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
-import com.bubble.Tools.ColourGenerator;
+import com.bubble.tools.ColourGenerator;
 
 // Centralised point to manage shader programs
 public class ShaderHandler {

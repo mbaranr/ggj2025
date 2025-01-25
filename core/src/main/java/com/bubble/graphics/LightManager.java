@@ -1,4 +1,4 @@
-package com.bubble.Graphics;
+package com.bubble.graphics;
 
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.bubble.Helpers.Constants;
+import com.bubble.helpers.Constants;
 
 // Class to handle light operations
 public class LightManager {
