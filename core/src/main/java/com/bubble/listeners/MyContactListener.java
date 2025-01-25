@@ -60,7 +60,7 @@ public class MyContactListener implements ContactListener {
         //     // Adding entity to platform's entity list to handle horizontal movement
         //     character = (PlayableCharacter) entityHandler.getEntity(fa.getUserData() instanceof Platform ? fb.getBody() : fa.getBody());
         //     character.increaseFloorContact();
-        //     if (character.getMovementState() == MSTATE.PREV) character.setMovementState(MSTATE.HSTILL);
+        //     if (character.getMovementState() == MSTATE.PREV) character.setMovementState(MSTATE.STILL);
         //     Platform platform = (Platform) (fa.getUserData() instanceof Platform ? fa.getUserData() : fb.getUserData());
         //     platform.addEntityOnTop(character);
 
@@ -75,7 +75,7 @@ public class MyContactListener implements ContactListener {
         // } else if (fa.getUserData().equals("bottomSensor") || fb.getUserData().equals("bottomSensor")) {    // Collision with ground
         //     character = (PlayableCharacter) entityHandler.getEntity(fa.getUserData().equals("bottomSensor") ? fa.getBody() : fb.getBody());
         //     character.increaseFloorContact();
-        //     if (character.getMovementState() == MSTATE.PREV) character.setMovementState(MSTATE.HSTILL);
+        //     if (character.getMovementState() == MSTATE.PREV) character.setMovementState(MSTATE.STILL);
 
         // } else if (fa.getUserData().equals("attack") || fb.getUserData().equals("attack")) {    // Collision with sword attack
         //     character = (PlayableCharacter) entityHandler.getEntity(fa.getUserData().equals("attack") ? fb.getBody() : fa.getBody());

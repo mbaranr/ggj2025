@@ -4,8 +4,7 @@ public class Constants {
     public static final int TILE_SIZE = 32; //Used to maintain constant dimension regardless of machine size
 
     public static final float PPM = 100;    //Pixels per meter
-    public static final float MAX_SPEED_X = 1.2f;       //Max speed allowed in x-direction
-    public static final float MAX_SPEED_Y = 5f;         //Max speed allowed in y-direction
+    public static final float MAX_SPEED = 1.2f;       //Max speed allowed in x-direction
     public static final float TEXT_SPEED = 20;          //Speed at which text prints in cutscene
     public static final float KNOCKBACK_SCALE = 1f;     //Move character backwards when attacked
     public static final float G = 11;                   //Normal gravity for world
@@ -15,10 +14,9 @@ public class Constants {
 
     // Movement state Flag
     public enum MSTATE {
-        LEFT, RIGHT,    //Left movement, right movement
+        LEFT, RIGHT, UP, DOWN, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT,    // 8 different directions
         PREV,           // Keep previous direction
-        HSTILL,         // Horizontal still
-        FSTILL;         // Full still
+        STILL;         // Full still
     }
 
     // Player state flag
@@ -31,14 +29,14 @@ public class Constants {
     }
 
     public enum SCREEN_OP {
-        START, RESUME, GAME, EXIT, RESTART 
+        START, RESUME, GAME, EXIT, RESTART
     }
 
     //Slide transition directions
     public enum SLIDE_DIR {
         SLIDE_UP, SLIDE_DOWN, SLIDE_RIGHT, SLIDE_LEFT
     }
-    
+
     public static final short BIT_GROUND = 2;   // Includes ground and walls (because sometimes the ground can be a wall)
     public static final short BIT_HAZARD = 4;
     public static final short BIT_PlAYER = 8;

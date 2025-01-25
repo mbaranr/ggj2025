@@ -41,7 +41,7 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
         addPlayerState(Constants.PSTATE.ON_GROUND);
         currAState = Constants.ASTATE.IDLE;
         prevAState = Constants.ASTATE.IDLE;
-        movementState = Constants.MSTATE.HSTILL;
+        movementState = Constants.MSTATE.STILL;
 
         wallState = 0;
         floorContacts = 0;
@@ -51,16 +51,8 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
     public void update(float delta) {
 
         // Capping y velocity
-        if (b2body.getLinearVelocity().y < -Constants.MAX_SPEED_Y)
-            b2body.setLinearVelocity(new Vector2(b2body.getLinearVelocity().x, -Constants.MAX_SPEED_Y));
 
-        if (!isStateActive(Constants.PSTATE.ON_GROUND)) {
-            airIterations++;
-        } else {
-            airIterations = 0;
-        }
-
-        if (isStateActive(Constants.PSTATE.DYING)) movementState = Constants.MSTATE.HSTILL;
+        if (isStateActive(Constants.PSTATE.DYING)) movementState = Constants.MSTATE.STILL;
         else if (isStateActive(Constants.PSTATE.STUNNED)) movementState = Constants.MSTATE.PREV;
 
         handleMovement();
@@ -91,76 +83,103 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
     public void handleMovement() {
         switch (movementState) {
             case LEFT:
-                if (isStateActive(Constants.PSTATE.ON_GROUND) && !isStateActive(Constants.PSTATE.LANDING)) currAState = Constants.ASTATE.RUN;
+                currAState = Constants.ASTATE.RUN;
                 facingRight = false;
                 moveLeft();
                 break;
+
             case RIGHT:
-                if (isStateActive(Constants.PSTATE.ON_GROUND) && !isStateActive(Constants.PSTATE.LANDING)) currAState = Constants.ASTATE.RUN;
+                currAState = Constants.ASTATE.RUN;
                 facingRight = true;
                 moveRight();
                 break;
-            case PREV:
-                b2body.setLinearVelocity(b2body.getLinearVelocity().x, b2body.getLinearVelocity().y);
+
+            case UP:
+                currAState = Constants.ASTATE.RUN;
+                moveUp();
                 break;
-            case HSTILL:
-                b2body.setLinearVelocity(0, b2body.getLinearVelocity().y);
-                if (!isStateActive(Constants.PSTATE.ON_GROUND) || isStateActive(Constants.PSTATE.LANDING)) break;
-                else currAState = Constants.ASTATE.IDLE;
+
+            case DOWN:
+                currAState = Constants.ASTATE.RUN;
+                moveDown();
                 break;
-            case FSTILL:
+
+            case UPRIGHT:
+                currAState = Constants.ASTATE.RUN;
+                facingRight = true;
+                moveUpRight();
+                break;
+
+            case UPLEFT:
+                currAState = Constants.ASTATE.RUN;
+                facingRight = false;
+                moveUpLeft();
+                break;
+
+            case DOWNRIGHT:
+                currAState = Constants.ASTATE.RUN;
+                facingRight = true;
+                moveDownRight();
+                break;
+
+            case DOWNLEFT:
+                currAState = Constants.ASTATE.RUN;
+                facingRight = false;
+                moveDownLeft();
+                break;
+
+            case STILL:
                 b2body.setLinearVelocity(0, 0);
                 break;
         }
     }
 
-    public void land() {
-        addPlayerState(Constants.PSTATE.ON_GROUND);
-        addPlayerState(Constants.PSTATE.LANDING);
-        if (airIterations >= 5) {
-            resourceManager.getSound("land").play(0.4f);
-            util.getParticleHandler().addParticleEffect("dust_ground", facingRight ? b2body.getPosition().x - 5 / Constants.PPM : b2body.getPosition().x - 3 / Constants.PPM, b2body.getPosition().y - 10/Constants.PPM);
-            currAState = Constants.ASTATE.LAND;
-        }
-        timer.start(0.2f, "land", this);
-        world.setGravity(new Vector2(0, -Constants.G));
-        b2body.setLinearDamping(0);
-    }
-
-    public void jump() {
-        resourceManager.getSound("jump").play(0.4f);
-        util.getParticleHandler().addParticleEffect("dust_ground", facingRight ? b2body.getPosition().x - 5 / Constants.PPM : b2body.getPosition().x - 3 / Constants.PPM, b2body.getPosition().y - 10/Constants.PPM);
-        b2body.applyLinearImpulse(new Vector2(0, 3f), b2body.getWorldCenter(), true);
-    }
-
-    public void fall() {
-        world.setGravity(new Vector2(0, -Constants.G_ENHANCED));
-        if (!isFalling()) b2body.setLinearDamping(12);   // If not falling, set linear damping to regulate height
-    }
-
-    public void wallJump() {
-        if (isStateActive(Constants.PSTATE.STUNNED)) return;
-        b2body.setLinearDamping(0);
-        if (wallState == -1) {
-            util.getParticleHandler().addParticleEffect("dust_wall", b2body.getPosition().x - 8 / Constants.PPM, b2body.getPosition().y);
-            b2body.applyLinearImpulse(new Vector2(1, 3), b2body.getWorldCenter(), true);
-        } else {
-            util.getParticleHandler().addParticleEffect("dust_wall", b2body.getPosition().x + 8 / Constants.PPM, b2body.getPosition().y);
-            b2body.applyLinearImpulse(new Vector2(-1, 3), b2body.getWorldCenter(), true);
-        }
-        stun(0.2f);
-    }
-
     public void moveRight() {
         //Initial acceleration
         if (b2body.getLinearVelocity().x == 0) b2body.applyLinearImpulse(new Vector2(0.5f, 0), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity(Constants.MAX_SPEED_X, b2body.getLinearVelocity().y);
+        else b2body.setLinearVelocity(Constants.MAX_SPEED, b2body.getLinearVelocity().y);
     }
 
     public void moveLeft() {
         //Initial acceleration
         if (b2body.getLinearVelocity().x == 0) b2body.applyLinearImpulse(new Vector2(-0.5f, 0), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity(-Constants.MAX_SPEED_X, b2body.getLinearVelocity().y);
+        else b2body.setLinearVelocity(-Constants.MAX_SPEED, b2body.getLinearVelocity().y);
+    }
+
+    public void moveUp() {
+        //Initial acceleration
+        if (b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0, 0.5f), b2body.getWorldCenter(), true);
+        else b2body.setLinearVelocity(b2body.getLinearVelocity().x, Constants.MAX_SPEED);
+    }
+
+    public void moveDown() {
+        //Initial acceleration
+        if (b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0, -0.5f), b2body.getWorldCenter(), true);
+        else b2body.setLinearVelocity(b2body.getLinearVelocity().x, -Constants.MAX_SPEED);
+    }
+
+    public void moveUpRight() {
+        //Initial acceleration
+        if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0.5f, 0.5f), b2body.getWorldCenter(), true);
+        else b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
+    }
+
+    public void moveUpLeft() {
+        //Initial acceleration
+        if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(-0.5f, 0.5f), b2body.getWorldCenter(), true);
+        else b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
+    }
+
+    public void moveDownRight() {
+        //Initial acceleration
+        if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0.5f, -0.5f), b2body.getWorldCenter(), true);
+        else b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
+    }
+
+    public void moveDownLeft() {
+        //Initial acceleration
+        if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(-0.5f, -0.5f), b2body.getWorldCenter(), true);
+        else b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     @Override
@@ -172,7 +191,7 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
                 removePlayerState(Constants.PSTATE.LANDING);
                 break;
             case "stop":
-                movementState = Constants.MSTATE.HSTILL;
+                movementState = Constants.MSTATE.STILL;
                 break;
             case "hit":
                 removePlayerState(Constants.PSTATE.HIT);
@@ -237,18 +256,6 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
     public void removePlayerState(Constants.PSTATE state) { playerStates.remove(state); }
 
     public boolean isStateActive(Constants.PSTATE state) { return playerStates.contains(state); }
-
-    public void increaseFloorContact() {
-        if (floorContacts == 0) land();
-        floorContacts++;
-    }
-
-    public void decreaseFloorContact() {
-        floorContacts--;
-        if (floorContacts == 0) {
-            removePlayerState(Constants.PSTATE.ON_GROUND);
-        }
-    }
 
     public void dispose() {
         for (Fixture fixture : b2body.getFixtureList()) {

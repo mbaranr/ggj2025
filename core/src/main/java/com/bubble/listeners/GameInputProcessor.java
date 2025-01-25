@@ -14,7 +14,7 @@ import com.bubble.helpers.Constants.*;
 
 // Game screen input processor
 public class GameInputProcessor implements InputProcessor {
-    
+
     private final Main game;
     private final ScreenManager screenManager;
     private final MyResourceManager resourceManager;
@@ -31,7 +31,7 @@ public class GameInputProcessor implements InputProcessor {
 
         // Input multiplexing
         if (!(game.getScreen() instanceof GameScreen)) return false;
-     
+
         // switch (keycode) {
         //     case Input.Keys.RIGHT:
         //     case Input.Keys.D:
@@ -65,7 +65,7 @@ public class GameInputProcessor implements InputProcessor {
         //         break;
         //     case Input.Keys.I:
         //         // Inventory
-        //         character.setMovementState(MSTATE.HSTILL);
+        //         character.setMovementState(MSTATE.STILL);
         //         game.hud.pushInventory();
         //         break;
         //     case Input.Keys.ESCAPE:
@@ -94,13 +94,13 @@ public class GameInputProcessor implements InputProcessor {
         //     case Input.Keys.D:
         //         // Stopping and immediately checking for input
         //         if (Gdx.input.isKeyPressed(Input.Keys.A)) character.setMovementState(Constants.MSTATE.LEFT);
-        //         else character.setMovementState(Constants.MSTATE.HSTILL);
+        //         else character.setMovementState(Constants.MSTATE.STILL);
         //         break;
         //     case Input.Keys.LEFT:
         //     case Input.Keys.A:
         //         // Stopping and immediately checking for input
         //         if (Gdx.input.isKeyPressed(Input.Keys.D)) character.setMovementState(Constants.MSTATE.RIGHT);
-        //         else character.setMovementState(Constants.MSTATE.HSTILL);
+        //         else character.setMovementState(Constants.MSTATE.STILL);
         //         break;
         //     default:
         //         break;
