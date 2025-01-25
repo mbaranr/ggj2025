@@ -1,7 +1,7 @@
 package com.bubble.helpers;
 
 public class Constants {
-    public static final int TILE_SIZE = 10; //Used to maintain constant dimension regardless of machine size
+    public static final int TILE_SIZE = 32; //Used to maintain constant dimension regardless of machine size
 
     public static final float PPM = 100;    //Pixels per meter
     public static final float MAX_SPEED_X = 1.2f;       //Max speed allowed in x-direction
