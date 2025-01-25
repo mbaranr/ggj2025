@@ -91,7 +91,6 @@ public class GameInputProcessor implements InputProcessor {
         }
 
 
-
 //         switch (keycode) {
 //             case Input.Keys.RIGHT:
 //             case Input.Keys.D:

@@ -6,6 +6,7 @@ import com.bubble.screens.ScreenManager;
 import com.bubble.tools.MyResourceManager;
 import com.bubble.tools.UtilityStation;
 import com.bubble.world.EntityHandler;
+import com.bubble.entities.Bubble;
 import com.bubble.entities.Player;
 
 public class MyContactListener implements ContactListener {
@@ -35,6 +36,18 @@ public class MyContactListener implements ContactListener {
 
         EntityHandler entityHandler = util.getEntityHandler();
 
+        if (fa.getUserData() instanceof Player || fb.getUserData() instanceof Player) {
+            if (fa.getUserData() instanceof Bubble || fb.getUserData() instanceof Bubble) {
+                Bubble bubble = (Bubble) (fa.getUserData() instanceof Bubble ? fa.getUserData() : fb.getUserData());
+                Player player = (Player) (fa.getUserData() instanceof Player ? fa.getUserData() : fb.getUserData());
+                if (bubble.creator != player) {
+                    bubble.pop();
+                    return;
+                }
+            }
+        } else if (fa.getUserData() instanceof Bubble || fb.getUserData() instanceof Bubble) {
+            
+        }
         // // If player has collided with a lever
         // if (fa.getUserData() instanceof Interactable || fb.getUserData() instanceof Interactable) {
         //     character = (PlayableCharacter) entityHandler.getEntity(fa.getUserData() instanceof Interactable ? fb.getBody() : fa.getBody());
