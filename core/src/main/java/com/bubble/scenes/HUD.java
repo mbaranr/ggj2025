@@ -8,15 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.bubble.graphics.ShaderHandler;
-import com.bubble.tools.FancyFontHelper;
-import com.bubble.tools.ColourGenerator;
 import com.bubble.entities.Player;
+import com.bubble.graphics.ShaderHandler;
+import com.bubble.tools.ColourGenerator;
 import com.bubble.tools.MyResourceManager;
 import com.bubble.tools.ShapeDrawer;
 
@@ -77,5 +73,5 @@ public class HUD {
             }
         }
     }
-    
+
 }

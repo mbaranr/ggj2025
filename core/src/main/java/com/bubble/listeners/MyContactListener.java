@@ -1,18 +1,12 @@
 package com.bubble.listeners;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.bubble.objects.Interactable;
-import com.bubble.objects.Item;
 import com.bubble.scenes.HUD;
 import com.bubble.screens.ScreenManager;
 import com.bubble.tools.MyResourceManager;
 import com.bubble.tools.UtilityStation;
 import com.bubble.world.EntityHandler;
-import com.bubble.helpers.Constants;
-import com.bubble.entities.PlayableCharacter;
-import com.bubble.helpers.Constants.*;
-import com.bubble.tools.MathWizard;
+import com.bubble.entities.Player;
 
 public class MyContactListener implements ContactListener {
 
@@ -37,7 +31,7 @@ public class MyContactListener implements ContactListener {
 
         if (handleFixtures(contact)) return;
 
-        PlayableCharacter character;
+        Player character;
 
         EntityHandler entityHandler = util.getEntityHandler();
 
@@ -109,7 +103,7 @@ public class MyContactListener implements ContactListener {
 
         if (handleFixtures(contact)) return;
 
-        PlayableCharacter character;
+        Player character;
 
         EntityHandler entityHandler = util.getEntityHandler();
 

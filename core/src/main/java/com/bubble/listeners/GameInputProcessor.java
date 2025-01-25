@@ -1,16 +1,10 @@
 package com.bubble.listeners;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.bubble.entities.Player;
 import com.bubble.screens.ScreenManager;
 import com.bubble.tools.MyResourceManager;
 import com.bubble.Main;
-import com.bubble.entities.PlayableCharacter;
 import com.bubble.screens.GameScreen;
-import com.bubble.helpers.Constants;
-import com.bubble.helpers.Constants.*;
 
 // Game screen input processor
 public class GameInputProcessor implements InputProcessor {

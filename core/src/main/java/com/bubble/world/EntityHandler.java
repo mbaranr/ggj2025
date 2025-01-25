@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.bubble.graphics.ShaderHandler;
 import com.bubble.helpers.Constants;
 import com.bubble.entities.Entity;
-import com.bubble.entities.PlayableCharacter;
+import com.bubble.entities.Player;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -53,7 +53,7 @@ public class EntityHandler {
     }
 
     public void update(float delta) {
-        
+
         // Updating all entities
         for (Entity entity : entities.values()) {
             entity.update(delta);
@@ -62,12 +62,12 @@ public class EntityHandler {
     }
 
     public void render(SpriteBatch batch) {
-        
+
         // Rendering entities
         for (Entity entity : entities.values()) {
-            if (entity instanceof PlayableCharacter) {
+            if (entity instanceof Player) {
                 // Applying red mask if entity is hit
-                if (((PlayableCharacter) entity).isStateActive(Constants.PSTATE.HIT)) {
+                if (((Player) entity).isStateActive(Constants.PSTATE.HIT)) {
                     batch.setShader(shaderHandler.getShaderProgram("redMask"));
                 }
             }

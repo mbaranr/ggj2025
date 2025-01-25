@@ -1,7 +1,5 @@
 package com.bubble.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.bubble.objects.Interactable;
@@ -13,7 +11,7 @@ import java.util.EnumSet;
 import com.bubble.tools.UtilityStation;
 import java.util.LinkedList;
 
-public abstract class PlayableCharacter extends Entity implements Subscriber {
+public abstract class Player extends Entity implements Subscriber {
     protected final MyTimer timer;
     protected final World world;
     protected int wallState;  // -1 for left, 1 for right, 0 for none
@@ -26,7 +24,7 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
     protected UtilityStation util;
     private LinkedList<Interactable> interactablesInRange;
 
-    public PlayableCharacter(World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation util) {
+    public Player(World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation util) {
 
         super(id, myResourceManager);
         this.timer = timer;
