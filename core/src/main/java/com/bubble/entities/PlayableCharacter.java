@@ -163,6 +163,18 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
         else b2body.setLinearVelocity(-Constants.MAX_SPEED_X, b2body.getLinearVelocity().y);
     }
 
+    public void startShoot() {
+        //Initial acceleration
+        if (b2body.getLinearVelocity().x == 0) b2body.applyLinearImpulse(new Vector2(0.5f, 0), b2body.getWorldCenter(), true);
+        else b2body.setLinearVelocity(Constants.MAX_SPEED_X, b2body.getLinearVelocity().y);
+    }
+
+    public void endtShoot() {
+        //Initial acceleration
+        if (b2body.getLinearVelocity().x == 0) b2body.applyLinearImpulse(new Vector2(0.5f, 0), b2body.getWorldCenter(), true);
+        else b2body.setLinearVelocity(Constants.MAX_SPEED_X, b2body.getLinearVelocity().y);
+    }
+
     @Override
     public void notify(String flag) {
         switch (flag) {
