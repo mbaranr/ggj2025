@@ -40,8 +40,6 @@ public class GameScreen extends ManagedScreen {
     private final GameInputProcessor inputProcessor;
     private final ScreenManager screenManager;
 
-    private final Bubble testBubble;
-
     public GameScreen(Main game, MyResourceManager resourceManager, ScreenManager screenManager, MusicManager musicManager) {
 
         this.game = game;
@@ -50,12 +48,12 @@ public class GameScreen extends ManagedScreen {
 
         // Creating tile map
         TmxMapLoader mapLoader = new TmxMapLoader();
-        TiledMap map = mapLoader.load("tilemaps/map.tmx");
+        TiledMap map = mapLoader.load("tilemaps/MAptry1.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
         gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
+        gamePort = new FitViewport(Constants.TILE_SIZE * 60 / Constants.PPM, Constants.TILE_SIZE * 39 / Constants.PPM, gameCam);
 
         ColourGenerator colourGenerator = new ColourGenerator();
         AtomicInteger eidAllocator = new AtomicInteger();
@@ -77,14 +75,10 @@ public class GameScreen extends ManagedScreen {
         b2dr = new Box2DDebugRenderer();
         new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, util, game.hud, textureDrawer);     //Creating world
 
-        inputProcessor = new GameInputProcessor(game, screenManager, resourceManager,entityHandler);
+        inputProcessor = new GameInputProcessor(game, screenManager, resourceManager,entityHandler, world, timer);
         Gdx.input.setInputProcessor(inputProcessor);
 
         lightManager.setDim(0.9f);  // Making the environment 40% less bright
-
-        testBubble = new Bubble(world, 1, 1000, 500, timer, resourceManager, util.getEntityHandler());
-        util.getEntityHandler().addEntity(testBubble);
-
     }
 
     @Override
@@ -125,7 +119,7 @@ public class GameScreen extends ManagedScreen {
         //Uncomment this to render fixture outlines
         b2dr.render(world, gameCam.combined);
 
-        gameCam.position.set(testBubble.getPosition().x, testBubble.getPosition().y, 0);
+        gameCam.position.set(Constants.TILE_SIZE * 60 / Constants.PPM / 2, Constants.TILE_SIZE * 39 / Constants.PPM / 2, 0);
         gameCam.update();
     }
 

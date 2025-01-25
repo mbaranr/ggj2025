@@ -250,6 +250,8 @@ public class Player extends Entity implements Subscriber {
 
     public boolean isStateActive(Constants.PSTATE state) { return playerStates.contains(state); }
 
+    public Constants.ASTATE getCurrAState() { return currAState; }
+    
     public void dispose() {
         for (Fixture fixture : b2body.getFixtureList()) {
             b2body.destroyFixture(fixture);

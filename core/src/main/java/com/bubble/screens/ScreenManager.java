@@ -32,7 +32,7 @@ public final class ScreenManager {
         levelProgression = 1;           //set levels completed to level 1
         this.musicManager = musicManager;
 
-        musicManager.play("music/main_theme.mp3");  //play background music
+        musicManager.play("music/start_theme.mp3");  //play background music
     }
 
     public void pushScreen(Constants.SCREEN_OP screenType, String flag) {
@@ -55,6 +55,8 @@ public final class ScreenManager {
                 currScreen = new StartScreen(game, resourceManager, this);
                 break;
             case GAME:   //load level 1
+                musicManager.stop();
+                musicManager.play("music/main_theme.mp3");
                 currScreen = new GameScreen(game, resourceManager, this, musicManager);
                 break;
             case EXIT:  //dispose all resources and exit the application

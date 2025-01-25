@@ -19,21 +19,23 @@ public class Bubble extends Entity implements Subscriber {
     private FixtureDef fdef;
     private EnumSet<Constants.BSTATE> states;       // Set of player states
     private EntityHandler entityHandler;
+    private Player creator;
 
-    public Bubble(World world, int id, float x, float y, MyTimer timer, MyResourceManager myResourceManager, EntityHandler entityHandler) {
+    public Bubble(World world, int id, MyTimer timer, MyResourceManager myResourceManager, EntityHandler entityHandler, Player creator) {
         super(id, myResourceManager);
         this.timer = timer;
         this.world = world;
         this.growing = true;
         states = EnumSet.noneOf(Constants.BSTATE.class);
         this.entityHandler = entityHandler;
+        this.creator = creator;
 
         setAnimation(TextureRegion.split(resourceManager.getTexture("bubble"), 964, 980)[0], 1/5f, true, 0f);
 
         // Defining a body
         BodyDef bdef = new BodyDef();
         bdef = new BodyDef();
-        bdef.position.set(x / Constants.PPM, y / Constants.PPM);
+        bdef.position.set(creator.getPosition().x, creator.getPosition().y);
         bdef.fixedRotation = true;
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
@@ -83,6 +85,11 @@ public class Bubble extends Entity implements Subscriber {
 //                break;
     }
 
+    public void handlePosition() {
+        
+        setPosition(creator.getPosition().x, creator.getPosition().y);
+    }
+
     public void pop() {
         world.destroyBody(b2body);
     }
@@ -93,6 +100,11 @@ public class Bubble extends Entity implements Subscriber {
     public void update(float delta) {
         animation.update(delta);
         super.update(delta);
+
+        if (!states.contains(Constants.BSTATE.FREE)) {
+            handlePosition();
+        }
+
         if (growing) {
             this.resize += Constants.BUBBLE_GR;
 

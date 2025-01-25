@@ -2,9 +2,12 @@ package com.bubble.listeners;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.physics.box2d.World;
+import com.bubble.entities.Bubble;
 import com.bubble.entities.Player;
 import com.bubble.screens.ScreenManager;
 import com.bubble.tools.MyResourceManager;
+import com.bubble.tools.MyTimer;
 import com.bubble.Main;
 import com.bubble.screens.GameScreen;
 import com.bubble.helpers.Constants;
@@ -18,15 +21,20 @@ public class GameInputProcessor implements InputProcessor {
     private final MyResourceManager resourceManager;
     private final Player p1;
     private final Player p2;
+    private final EntityHandler entityHandler;
+    private final World world;
+    private final MyTimer timer;
 
 
-
-    public GameInputProcessor(Main game, ScreenManager screenManager, MyResourceManager resourceManager, EntityHandler entityHandler) {
+    public GameInputProcessor(Main game, ScreenManager screenManager, MyResourceManager resourceManager, EntityHandler entityHandler, World world, MyTimer timer) {
         this.game = game;
         this.screenManager = screenManager;
         this.resourceManager = resourceManager;
+        this.entityHandler = entityHandler;
         this.p1 = entityHandler.getPlayer1();
         this.p2 = entityHandler.getPlayer2();
+        this.world = world;
+        this.timer = timer;
     }
 
 
@@ -49,6 +57,9 @@ public class GameInputProcessor implements InputProcessor {
                 break;
             case Input.Keys.S: // P1 move down
                 p1.addMovementState(Constants.MSTATE.DOWN);
+                break;
+            case Input.Keys.F:
+                entityHandler.addEntity(new Bubble(world, 0, timer, resourceManager, entityHandler, p1));
                 break;
 
             // Player 2 Movement

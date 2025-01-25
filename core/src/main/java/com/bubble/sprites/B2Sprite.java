@@ -62,5 +62,7 @@ public abstract class B2Sprite {
 
     public Vector2 getPosition() { return b2body.getPosition(); }
 
+    public void setPosition(float x, float y) { b2body.setTransform(x, y, b2body.getAngle()); }    
+
     public Body getB2body() { return b2body; }
 }
