@@ -15,12 +15,11 @@ public class Bubble extends Entity implements Subscriber {
     private boolean gettingFat; // wont need if we just call from player class
 
 
-
     public Bubble(World world, int id, float x, float y, MyTimer timer, MyResourceManager myResourceManager) {
         super(id, myResourceManager);
         this.timer = timer;
         this.world = world;
-        this.bubbleSize = 1;
+        this.bubbleSize = 1;//
         this.gettingFat = true;
 //        int timeToLive = 5;
 
@@ -48,14 +47,47 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     //should update size of the bubble either by going through a list or by drawing a bigger bubble
-    public int gettingFat(int radius){ radius += 8; return radius;}
+    public int gettingFat(int radius) {
+        radius += 8;
+        return radius;
+    }
 
-    public void iWantToBreakFree(Vector2 direction, int x, int y){
-
+    public void iWantToBreakFree(Vector2 direction, int x, int y) {
+        //
+//        switch (movementState) {
+//            case RIGHT:
+//                b2body.applyLinearImpulse(new Vector2(0.5f, 0), b2body.getWorldCenter(), true);
+//                break;
+//            case LEFT:
+//                b2body.applyLinearImpulse(new Vector2(-0.5f, 0), b2body.getWorldCenter(), true);
+//                break;
+//            case UP:
+//                b2body.applyLinearImpulse(new Vector2(0.0f, 0.5f), b2body.getWorldCenter(), true);
+//                break;
+//            case DOWN:
+//                b2body.applyLinearImpulse(new Vector2(0, -0.5f), b2body.getWorldCenter(), true);
+//                break;
+//            case UPRIGHT:
+//                b2body.applyLinearImpulse(new Vector2(0.5f, 0.5f), b2body.getWorldCenter(), true);
+//                break;
+//            case UPLEFT:
+//                b2body.applyLinearImpulse(new Vector2(-0.5f, 0.5f), b2body.getWorldCenter(), true);
+//                break;
+//            case DOWNRIGHT:
+//                b2body.applyLinearImpulse(new Vector2(0.5f, -0.5f), b2body.getWorldCenter(), true);
+//                break;
+//            case DOWNLEFT:
+//                b2body.applyLinearImpulse(new Vector2(-0.5f, -0.5f), b2body.getWorldCenter(), true);
+//                break;
     }
 
 
-    public void notify(String flag){
-
+    public void notify(String flag) {
+        switch (flag) {
+            case "pop":
+                break;
+            case "merge":
+                break;
+        }
     }
 }
