@@ -26,19 +26,19 @@ public class ParticleHandler {
         // Initializing particle effects
 
         ParticleEffect dustGround = new ParticleEffect();
-        dustGround.load(Gdx.files.internal("particles/dust_ground.p"), Gdx.files.internal("Particles"));
+        dustGround.load(Gdx.files.internal("particles/dust_ground.p"), Gdx.files.internal("particles"));
         dustGround.scaleEffect(scaleFactor);
 
         ParticleEffect dustWall = new ParticleEffect();
-        dustWall.load(Gdx.files.internal("particles/dust_wall.p"), Gdx.files.internal("Particles"));
+        dustWall.load(Gdx.files.internal("particles/dust_wall.p"), Gdx.files.internal("particles"));
         dustWall.scaleEffect(scaleFactor);
 
         ParticleEffect airRight = new ParticleEffect();
-        airRight.load(Gdx.files.internal("particles/air_right.p"), Gdx.files.internal("Particles"));
+        airRight.load(Gdx.files.internal("particles/air_right.p"), Gdx.files.internal("particles"));
         airRight.scaleEffect(scaleFactor);
 
         ParticleEffect airLeft = new ParticleEffect();
-        airLeft.load(Gdx.files.internal("particles/air_left.p"), Gdx.files.internal("Particles"));
+        airLeft.load(Gdx.files.internal("particles/air_left.p"), Gdx.files.internal("particles"));
         airLeft.scaleEffect(scaleFactor);
 
         ParticleEffect aura = new ParticleEffect();
