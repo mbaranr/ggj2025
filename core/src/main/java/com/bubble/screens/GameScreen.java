@@ -79,7 +79,7 @@ public class GameScreen extends ManagedScreen {
         new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, util, game.hud, textureDrawer);     //Creating world
         lightManager.setDim(0.9f);  // Making the environment 40% less bright
 
-        testBubble = new Bubble(world, 1, 1000, 500, timer, resourceManager);
+        testBubble = new Bubble(world, 1, 1000, 500, timer, resourceManager, util.getEntityHandler());
         util.getEntityHandler().addEntity(testBubble);
     }
 

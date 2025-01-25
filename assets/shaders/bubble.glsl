@@ -15,7 +15,7 @@ void main() {
     float distance = length(coord); // Distance from the center
 
     // Create a bubble distortion effect
-    float radius = 0.4; // Radius of the bubble
+    float radius = 0.1; // Radius of the bubble
     float distortion = 0.1 * sin(distance * 10.0 - u_time * 3.0); // Animated distortion
 
     // Apply distortion only within the bubble's radius

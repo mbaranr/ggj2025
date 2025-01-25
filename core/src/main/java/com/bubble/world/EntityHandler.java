@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bubble.graphics.ShaderHandler;
 import com.bubble.helpers.Constants;
+import com.bubble.entities.Bubble;
 import com.bubble.entities.Entity;
-import com.bubble.entities.PlayableCharacter;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -65,10 +65,11 @@ public class EntityHandler {
         
         // Rendering entities
         for (Entity entity : entities.values()) {
-            if (entity instanceof PlayableCharacter) {
-                // Applying red mask if entity is hit
-                if (((PlayableCharacter) entity).isStateActive(Constants.PSTATE.HIT)) {
-                    batch.setShader(shaderHandler.getShaderProgram("redMask"));
+            if (entity instanceof Bubble) {
+                if (((Bubble) entity).isStateActive(Constants.BSTATE.FULL)) {
+                    batch.setShader(shaderHandler.getShaderProgram("blink"));
+                } else {
+                    batch.setShader(shaderHandler.getShaderProgram("water"));
                 }
             }
             entity.render(batch);
@@ -91,7 +92,7 @@ public class EntityHandler {
         }
 
         public void resolve() {
-            if (operation.equals("die")) {
+            if (operation.equals("die") || operation.equals("pop")) {
                 entities.remove(entity.getID());
             }
         }

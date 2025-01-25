@@ -114,18 +114,6 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
         }
     }
 
-    public void land() {
-        addPlayerState(Constants.PSTATE.ON_GROUND);
-        addPlayerState(Constants.PSTATE.LANDING);
-        if (airIterations >= 5) {
-            resourceManager.getSound("land").play(0.4f);
-            util.getParticleHandler().addParticleEffect("dust_ground", facingRight ? b2body.getPosition().x - 5 / Constants.PPM : b2body.getPosition().x - 3 / Constants.PPM, b2body.getPosition().y - 10/Constants.PPM);
-            currAState = Constants.ASTATE.LAND;
-        }
-        timer.start(0.2f, "land", this);
-        world.setGravity(new Vector2(0, -Constants.G));
-        b2body.setLinearDamping(0);
-    }
 
     public void jump() {
         resourceManager.getSound("jump").play(0.4f);
@@ -133,10 +121,6 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
         b2body.applyLinearImpulse(new Vector2(0, 3f), b2body.getWorldCenter(), true);
     }
 
-    public void fall() {
-        world.setGravity(new Vector2(0, -Constants.G_ENHANCED));
-        if (!isFalling()) b2body.setLinearDamping(12);   // If not falling, set linear damping to regulate height
-    }
 
     public void wallJump() {
         if (isStateActive(Constants.PSTATE.STUNNED)) return;
@@ -249,18 +233,6 @@ public abstract class PlayableCharacter extends Entity implements Subscriber {
     public void removePlayerState(Constants.PSTATE state) { playerStates.remove(state); }
 
     public boolean isStateActive(Constants.PSTATE state) { return playerStates.contains(state); }
-
-    public void increaseFloorContact() {
-        if (floorContacts == 0) land();
-        floorContacts++;
-    }
-
-    public void decreaseFloorContact() {
-        floorContacts--;
-        if (floorContacts == 0) {
-            removePlayerState(Constants.PSTATE.ON_GROUND);
-        }
-    }
 
     public void dispose() {
         for (Fixture fixture : b2body.getFixtureList()) {
