@@ -35,16 +35,16 @@ public class B2WorldHandler {
         Body body;
 
         // Create ground
-        // for (RectangleMapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
-        //     Rectangle rect = object.getRectangle();
-        //     bdef.type = BodyDef.BodyType.StaticBody;
-        //     bdef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM, (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
-        //     body = world.createBody(bdef);
-        //     shape.setAsBox((rect.getWidth() / 2) / Constants.PPM, (rect.getHeight() / 2) / Constants.PPM);
-        //     fdef.shape = shape;
-        //     fdef.filter.categoryBits = Constants.BIT_GROUND;
-        //     body.createFixture(fdef).setUserData("ground");
-        // }
+        for (RectangleMapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM, (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
+            body = world.createBody(bdef);
+            shape.setAsBox((rect.getWidth() / 2) / Constants.PPM, (rect.getHeight() / 2) / Constants.PPM);
+            fdef.shape = shape;
+            fdef.filter.categoryBits = Constants.BIT_GROUND;
+            body.createFixture(fdef).setUserData("ground");
+        }
   
         // fdef = new FixtureDef();
 
