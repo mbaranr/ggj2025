@@ -11,17 +11,17 @@ import com.bubble.tools.MyTimer;
 public class Bubble extends Entity implements Subscriber {
     protected final MyTimer timer;
     protected final World world;
-    protected int bubbleSize;
-    private boolean gettingFat; // wont need if we just call from player class
+    private boolean growing; // wont need if we just call from player class
 
 
     public Bubble(World world, int id, float x, float y, MyTimer timer, MyResourceManager myResourceManager) {
         super(id, myResourceManager);
         this.timer = timer;
         this.world = world;
-        this.bubbleSize = 1;//
-        this.gettingFat = true;
-//        int timeToLive = 5;
+        this.growing = true;
+        int timeToLive = 5;
+
+        setAnimation(TextureRegion.split(resourceManager.getTexture("bubble"), 964, 980)[0], 1/5f, true, 0.02f);
 
         // Defining a body
         BodyDef bdef = new BodyDef();
@@ -33,15 +33,15 @@ public class Bubble extends Entity implements Subscriber {
 
         // Defining the shape of the fixture
         CircleShape circle = new CircleShape();
-        circle.setRadius(16 / Constants.PPM);
-        circle.setPosition(new Vector2(16 / Constants.PPM, 16 / Constants.PPM));
+        circle.setRadius(this.width / Constants.PPM / 2);
+        circle.setPosition(new Vector2(0, 0));
 
         // Defining a fixture
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         fdef.isSensor = true;
-        fdef.filter.categoryBits = Constants.BIT_GROUND;
-        fdef.filter.maskBits = Constants.BIT_PlAYER;
+        fdef.filter.categoryBits = Constants.BIT_HAZARD;
+        fdef.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_GROUND | Constants.BIT_HAZARD;
         b2body.createFixture(fdef).setUserData(this);
 
     }
@@ -81,6 +81,18 @@ public class Bubble extends Entity implements Subscriber {
 //                break;
     }
 
+    public void update(float delta) {
+        animation.update(delta);
+        super.update(delta);
+        if (growing) {
+            this.resize += Constants.BUBBLE_GR;
+            if (this.resize >= 0.05f) {
+                growing = false;
+            }
+        }
+        this.width = animation.getFrame().getRegionWidth() * resize;
+        this.height = animation.getFrame().getRegionHeight() * resize;;
+    }
 
     public void notify(String flag) {
         switch (flag) {

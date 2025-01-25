@@ -19,6 +19,7 @@ import com.bubble.graphics.ParticleHandler;
 import com.bubble.graphics.ShaderHandler;
 import com.bubble.tools.*;
 import com.bubble.world.*;
+import com.bubble.entities.Bubble;
 import com.bubble.listeners.MyContactListener;
 import com.bubble.listeners.GameInputProcessor;
 import com.bubble.world.B2WorldHandler;
@@ -34,10 +35,11 @@ public class GameScreen extends ManagedScreen {
     private final World world;    // World holding all the physical objects
     private final Box2DDebugRenderer b2dr;
     private final UtilityStation util;
-    private final ShapeDrawer shapeDrawer;
     private final TextureDrawer textureDrawer;
     private final GameInputProcessor inputProcessor;
     private final ScreenManager screenManager;
+
+    private final Bubble testBubble;
 
     public GameScreen(Main game, MyResourceManager resourceManager, ScreenManager screenManager, MusicManager musicManager) {
 
@@ -49,7 +51,7 @@ public class GameScreen extends ManagedScreen {
         TiledMap map = mapLoader.load("tilemaps/map.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
-        world = new World(new Vector2(0, -Constants.G), true);
+        world = new World(new Vector2(0, 0), true);
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
 
@@ -60,7 +62,6 @@ public class GameScreen extends ManagedScreen {
 
         // Tools and handlers
         ShaderHandler shaderHandler = new ShaderHandler(colourGenerator);
-        shapeDrawer = new ShapeDrawer(shaderHandler, resourceManager);
         textureDrawer = new TextureDrawer(shaderHandler);
         LightManager lightManager = new LightManager(world);
         ObjectHandler objectHandler = new ObjectHandler(resourceManager);
@@ -77,6 +78,9 @@ public class GameScreen extends ManagedScreen {
         b2dr = new Box2DDebugRenderer();
         new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, util, game.hud, textureDrawer);     //Creating world
         lightManager.setDim(0.9f);  // Making the environment 40% less bright
+
+        testBubble = new Bubble(world, 1, 1000, 500, timer, resourceManager);
+        util.getEntityHandler().addEntity(testBubble);
     }
 
     @Override
@@ -107,18 +111,17 @@ public class GameScreen extends ManagedScreen {
 
         util.render(game.batch, delta);
 
-        shapeDrawer.render(game.batch);
-
         textureDrawer.render(game.batch);
 
         game.hud.render(game.batch);
 
+        
         screenManager.render(delta);
 
         //Uncomment this to render fixture outlines
         b2dr.render(world, gameCam.combined);
 
-        gameCam.position.set(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 15.51f / Constants.PPM, 0);
+        gameCam.position.set(testBubble.getPosition().x, testBubble.getPosition().y, 0);
         gameCam.update();
     }
 

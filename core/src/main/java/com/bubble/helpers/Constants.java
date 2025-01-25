@@ -12,6 +12,7 @@ public class Constants {
     public static final float G_ENHANCED = 13;          //Enhanced gravity for falling in the world
     public static final float BUTTON_WIDTH = 250;       //Button width
     public static final float BUTTON_HEIGHT = 175.5f;   //Button height
+    public static final float BUBBLE_GR = 0.0001f;       //Bubble growth rate
 
     // Movement state Flag
     public enum MSTATE {
@@ -41,6 +42,6 @@ public class Constants {
     
     public static final short BIT_GROUND = 2;   // Includes ground and walls (because sometimes the ground can be a wall)
     public static final short BIT_HAZARD = 4;
-    public static final short BIT_PlAYER = 8;
+    public static final short BIT_PLAYER = 8;
     public static final short BIT_LIGHT = 16;
 }

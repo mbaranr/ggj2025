@@ -37,7 +37,7 @@ public class Item extends B2Sprite {
         fdef.shape = polygonShape;
         fdef.isSensor = true;
         fdef.filter.categoryBits = Constants.BIT_GROUND;
-        fdef.filter.maskBits = Constants.BIT_PlAYER;
+        fdef.filter.maskBits = Constants.BIT_PLAYER;
         b2body.createFixture(fdef).setUserData(this);
     }
 
