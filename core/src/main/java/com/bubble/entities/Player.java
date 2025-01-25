@@ -41,8 +41,8 @@ public class Player extends Entity implements Subscriber {
         // Initializing states
         playerStates = EnumSet.noneOf(Constants.PSTATE.class);
         addPlayerState(Constants.PSTATE.ON_GROUND);
-        currAState = Constants.ASTATE.IDLE;
-        prevAState = Constants.ASTATE.IDLE;
+        currAState = Constants.ASTATE.IDLE_DOWN;
+        prevAState = Constants.ASTATE.IDLE_DOWN;
         movementStates = new LinkedList<>();
 
         BodyDef bdef = new BodyDef();
@@ -68,27 +68,8 @@ public class Player extends Entity implements Subscriber {
         if (isStateActive(Constants.PSTATE.DYING)) movementStates.clear();
         else if (isStateActive(Constants.PSTATE.STUNNED)) movementStates.clear();
         handleMovement();
-
-        // Animation priority
-
-//        if (isStateActive(Constants.PSTATE.DYING)) {
-//          currAState = Constants.ASTATE.DEATH;
-//        } else if (isStateActive(Constants.PSTATE.ATTACKING)) {
-//            currAState = Constants.ASTATE.ATTACK;
-//        } else if (airIterations >= 5) {
-//            if (isFalling()) {
-//                currAState = Constants.ASTATE.FALL;
-//                b2body.setLinearDamping(0);
-//            } else {
-//                currAState = Constants.ASTATE.JUMP;
-//            }
-//        }
-
-        if (currAState != prevAState) {
-            handleAnimation();
-            prevAState = currAState;
-        }
-
+        handleAnimation();
+     
         // Update the animation
         animation.update(delta);
     }
@@ -108,7 +89,6 @@ public class Player extends Entity implements Subscriber {
 
         switch (state) {
             case LEFT:
-                currAState = Constants.ASTATE.RUN;
                 facingRight = false;
                 if (prevState == null || prevState == Constants.MSTATE.RIGHT) { moveLeft(); }
                 if (prevState == Constants.MSTATE.UP) { moveUpLeft(); }
@@ -116,7 +96,6 @@ public class Player extends Entity implements Subscriber {
                 break;
 
             case RIGHT:
-                currAState = Constants.ASTATE.RUN;
                 facingRight = true;
                 if (prevState == null || prevState == Constants.MSTATE.LEFT) { moveRight(); }
                 if (prevState == Constants.MSTATE.UP) { moveUpRight(); }
@@ -124,58 +103,93 @@ public class Player extends Entity implements Subscriber {
                 break;
 
             case UP:
-                currAState = Constants.ASTATE.RUN;
                 if (prevState == null || prevState == Constants.MSTATE.DOWN) { moveUp(); }
                 if (prevState == Constants.MSTATE.RIGHT) { moveUpRight(); }
                 if (prevState == Constants.MSTATE.LEFT) { moveUpLeft(); }
                 break;
 
             case DOWN:
-                currAState = Constants.ASTATE.RUN;
                 if (prevState == null || prevState == Constants.MSTATE.UP) { moveDown(); }
                 if (prevState == Constants.MSTATE.RIGHT) { moveDownRight(); }
                 if (prevState == Constants.MSTATE.LEFT) { moveDownLeft(); }
+                break;
+        }
+
+    }
+
+    public void handleAnimation() {
+        boolean idle = (movementStates.size() == 0) ? true : false;
+        switch (currAState) {
+            case RUN_DOWN:
+                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_DOWN; }
+                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                break;
+            case RUN_UP:
+                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_UP; }
+                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                break;
+            case RUN_RIGHT:
+                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_RIGHT; }
+                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                break;
+            case RUN_UP_RIGHT:
+                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_UP_RIGHT; }
+                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                break;
+            case RUN_DOWN_RIGHT:
+                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_DOWN_RIGHT; }
+                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                break;
+            default:
                 break;
         }
     }
 
     public void moveRight() {
         //Initial acceleration
+        currAState = Constants.ASTATE.RUN_RIGHT;
         b2body.setLinearVelocity(Constants.MAX_SPEED, 0);
     }
 
     public void moveLeft() {
         //Initial acceleration
+        currAState = Constants.ASTATE.RUN_RIGHT;
         b2body.setLinearVelocity(-Constants.MAX_SPEED, 0);
     }
 
     public void moveUp() {
         //Initial acceleration
+        currAState = Constants.ASTATE.RUN_UP;
         b2body.setLinearVelocity(0, Constants.MAX_SPEED);
     }
 
     public void moveDown() {
         //Initial acceleration
+        currAState = Constants.ASTATE.RUN_DOWN;
         b2body.setLinearVelocity(0, -Constants.MAX_SPEED);
     }
 
     public void moveUpRight() {
         //Initial acceleration
+        currAState = Constants.ASTATE.RUN_UP_RIGHT;
         b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     public void moveUpLeft() {
         //Initial acceleration
+        currAState = Constants.ASTATE.RUN_UP_RIGHT;
         b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     public void moveDownRight() {
         //Initial acceleration
+        currAState = Constants.ASTATE.RUN_DOWN_RIGHT;
         b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     public void moveDownLeft() {
         //Initial acceleration
+        currAState = Constants.ASTATE.RUN_DOWN_RIGHT;
         b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
@@ -251,7 +265,7 @@ public class Player extends Entity implements Subscriber {
     public boolean isStateActive(Constants.PSTATE state) { return playerStates.contains(state); }
 
     public Constants.ASTATE getCurrAState() { return currAState; }
-    
+
     public void dispose() {
         for (Fixture fixture : b2body.getFixtureList()) {
             b2body.destroyFixture(fixture);

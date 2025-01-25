@@ -14,7 +14,7 @@ public abstract class B2Sprite {
     protected Body b2body;
     protected Animation animation;
     protected float width, height;
-    protected boolean facingRight;
+    public boolean facingRight;
 
     /*
      * Float sprite resize value

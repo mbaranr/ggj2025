@@ -14,9 +14,7 @@ public class Constants {
 
     // Movement state Flag
     public enum MSTATE {
-        LEFT, RIGHT, UP, DOWN, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT,    // 8 different directions
-        PREV,           // Keep previous direction
-        STILL;         // Full still
+        LEFT, RIGHT, UP, DOWN
     }
 
     // Player state flag
@@ -30,7 +28,7 @@ public class Constants {
     }
     // Animation state flag
     public enum ASTATE {
-        RUN, JUMP, IDLE, FALL, LAND, OPEN, CLOSED, ATTACK, DEATH
+        RUN_RIGHT, RUN_UP, RUN_DOWN, RUN_UP_RIGHT, RUN_DOWN_RIGHT, IDLE_UP, IDLE_DOWN, IDLE_RIGHT, IDLE_UP_RIGHT, IDLE_DOWN_RIGHT
     }
 
     public enum SCREEN_OP {

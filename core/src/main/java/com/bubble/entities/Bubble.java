@@ -86,8 +86,42 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void handlePosition() {
-        
-        setPosition(creator.getPosition().x, creator.getPosition().y);
+        switch (creator.getCurrAState()) {
+            case RUN_RIGHT:
+            case IDLE_RIGHT:
+                if (creator.facingRight) {
+                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y);
+                } else {
+                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y);
+                }
+                break;
+            case RUN_DOWN:
+            case IDLE_DOWN:
+                setPosition(creator.getPosition().x, creator.getPosition().y - 32 / Constants.PPM);
+                break;
+            case RUN_UP:
+            case IDLE_UP:
+                setPosition(creator.getPosition().x, creator.getPosition().y + 32 / Constants.PPM);
+                break;
+            case RUN_UP_RIGHT:
+            case IDLE_UP_RIGHT:
+                if (creator.facingRight) {
+                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y + 32 / Constants.PPM);
+                } else {
+                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y + 32 / Constants.PPM);
+                }
+                break;
+            case RUN_DOWN_RIGHT:
+            case IDLE_DOWN_RIGHT:
+                if (creator.facingRight) {
+                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y - 32 / Constants.PPM);
+                } else {
+                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y - 32 / Constants.PPM);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void pop() {
