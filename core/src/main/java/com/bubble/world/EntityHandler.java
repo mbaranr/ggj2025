@@ -118,6 +118,7 @@ public class EntityHandler {
         public void resolve() {
             if (operation.equals("die") || operation.equals("pop")) {
                 entities.remove(entity.getID());
+                entity.die();
             }
         }
     }

@@ -19,7 +19,7 @@ public class Bubble extends Entity implements Subscriber {
     private FixtureDef fdef;
     private EnumSet<Constants.BSTATE> states;       // Set of player states
     private EntityHandler entityHandler;
-    private Player creator;
+    public Player creator;
     private Vector2 shootigDirection;
 
     public Bubble(World world, int id, MyTimer timer, MyResourceManager myResourceManager, EntityHandler entityHandler, Player creator) {
@@ -92,35 +92,35 @@ public class Bubble extends Entity implements Subscriber {
             case RUN_RIGHT:
             case IDLE_RIGHT:
                 if (creator.facingRight) {
-                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y);
+                    setPosition(creator.getPosition().x + this.width / (2 * Constants.PPM), creator.getPosition().y);
                     this.shootigDirection.x = Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = 0;
                 } else {
-                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y);
+                    setPosition(creator.getPosition().x - this.width / (2 * Constants.PPM), creator.getPosition().y);
                     this.shootigDirection.x = -Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = 0;
                 }
                 break;
             case RUN_DOWN:
             case IDLE_DOWN:
-                setPosition(creator.getPosition().x, creator.getPosition().y - 32 / Constants.PPM);
+                setPosition(creator.getPosition().x, creator.getPosition().y - this.width / (2 * Constants.PPM));
                 this.shootigDirection.x = 0;
                 this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 break;
             case RUN_UP:
             case IDLE_UP:
-                setPosition(creator.getPosition().x, creator.getPosition().y + 32 / Constants.PPM);
+                setPosition(creator.getPosition().x, creator.getPosition().y + this.width / (2 * Constants.PPM));
                 this.shootigDirection.x = 0;
                 this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 break;
             case RUN_UP_RIGHT:
             case IDLE_UP_RIGHT:
                 if (creator.facingRight) {
-                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y + 32 / Constants.PPM);
+                    setPosition(creator.getPosition().x + this.width / (2 * Constants.PPM), creator.getPosition().y + this.width / (2 * Constants.PPM));
                     this.shootigDirection.x = Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 } else {
-                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y + 32 / Constants.PPM);
+                    setPosition(creator.getPosition().x - this.width / (2 * Constants.PPM), creator.getPosition().y + this.width / (2 * Constants.PPM));
                     this.shootigDirection.x = -Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 }
@@ -128,11 +128,11 @@ public class Bubble extends Entity implements Subscriber {
             case RUN_DOWN_RIGHT:
             case IDLE_DOWN_RIGHT:
                 if (creator.facingRight) {
-                    setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y - 32 / Constants.PPM);
+                    setPosition(creator.getPosition().x + this.width / (2 * Constants.PPM), creator.getPosition().y - this.width / (2 * Constants.PPM));
                     this.shootigDirection.x = Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 } else {
-                    setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y - 32 / Constants.PPM);
+                    setPosition(creator.getPosition().x - this.width / (2 * Constants.PPM), creator.getPosition().y - this.width / (2 * Constants.PPM));
                     this.shootigDirection.x = -Constants.BUBBLE_SPEED;
                     this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 }
@@ -143,7 +143,7 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void pop() {
-        world.destroyBody(b2body);
+        entityHandler.addEntityOperation(this, "pop");
     }
 
     public void addState(Constants.BSTATE state) { states.add(state); }
@@ -181,8 +181,10 @@ public class Bubble extends Entity implements Subscriber {
 //            b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
             b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
         }
+    }
 
-
+    public void die() {
+        world.destroyBody(b2body);
     }
 
     public void notify(String flag) {
@@ -190,7 +192,6 @@ public class Bubble extends Entity implements Subscriber {
             case "pop":
                 states.add(Constants.BSTATE.POPPING);
                 this.pop();
-                entityHandler.addEntityOperation(this, "pop");
                 break;
             case "merge":
                 break;
