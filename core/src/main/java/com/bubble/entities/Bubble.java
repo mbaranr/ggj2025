@@ -139,22 +139,24 @@ public class Bubble extends Entity implements Subscriber {
 
         if (!states.contains(Constants.BSTATE.FREE)) {
             handlePosition();
-            this.resize += Constants.BUBBLE_GR;
+            if (!states.contains(Constants.BSTATE.FULL)) {
+                this.resize += Constants.BUBBLE_GR;
 
-            this.width = animation.getFrame().getRegionWidth() * resize;
-            this.height = animation.getFrame().getRegionHeight() * resize;
+                this.width = animation.getFrame().getRegionWidth() * resize;
+                this.height = animation.getFrame().getRegionHeight() * resize;
 
-            circle.setRadius(this.width / Constants.PPM / 2);
-            fdef.shape = circle;
+                circle.setRadius(this.width / Constants.PPM / 2);
+                fdef.shape = circle;
 
-            b2body.destroyFixture(b2body.getFixtureList().get(0));
-            b2body.createFixture(fdef).setUserData(this);
+                b2body.destroyFixture(b2body.getFixtureList().get(0));
+                b2body.createFixture(fdef).setUserData(this);
 
-            if (this.resize >= 0.05f) {
-                growing = false;
-                states.add(Constants.BSTATE.FULL);
-                timer.start(Constants.TTP, "pop", this);
+                if (this.resize >= 0.05f) {
+                    states.add(Constants.BSTATE.FULL);
+                    timer.start(Constants.TTP, "pop", this);
+                }
             }
+            
         }
     }
 

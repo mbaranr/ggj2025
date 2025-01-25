@@ -12,10 +12,12 @@ import com.bubble.Main;
 import com.bubble.screens.GameScreen;
 import com.bubble.helpers.Constants;
 import com.bubble.world.EntityHandler;
+import java.util.concurrent.atomic.AtomicInteger;
 
 // Game screen input processor
 public class GameInputProcessor implements InputProcessor {
 
+    private static final AtomicInteger idCounter = new AtomicInteger(1); // Static ID counter for all bubbles
     private final Main game;
     private final ScreenManager screenManager;
     private final MyResourceManager resourceManager;
@@ -26,7 +28,6 @@ public class GameInputProcessor implements InputProcessor {
     private final MyTimer timer;
     private Bubble p1b;
     private Bubble p2b;
-
 
 
     public GameInputProcessor(Main game, ScreenManager screenManager, MyResourceManager resourceManager, EntityHandler entityHandler, World world, MyTimer timer) {
@@ -64,7 +65,7 @@ public class GameInputProcessor implements InputProcessor {
                 p1.addMovementState(Constants.MSTATE.DOWN);
                 break;
             case Input.Keys.F:
-                p1b = new Bubble(world, 0, timer, resourceManager, entityHandler, p1);
+                p1b = new Bubble(world, idCounter.incrementAndGet(), timer, resourceManager, entityHandler, p1);
                 entityHandler.addEntity(p1b);
                 break;
 
@@ -155,7 +156,6 @@ public class GameInputProcessor implements InputProcessor {
                 break;
             case Input.Keys.F:
                 p1b.addState(Constants.BSTATE.FREE);
-                p1b = null;
                 break;
 
             // Player 2 Movement Stop

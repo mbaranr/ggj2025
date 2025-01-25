@@ -86,7 +86,7 @@ public class ShaderHandler {
         randColShader.setUniformf("b", colourGenerator.getCurrentColour().z);
 
         waterShader.bind();
-        waterShader.setUniformf("u_amount", 5f);
+        waterShader.setUniformf("u_amount", 10f);
         waterShader.setUniformf("u_speed", 1f);
         waterShader.setUniformf("u_time", time);
 
