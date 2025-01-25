@@ -20,8 +20,6 @@ public class Player extends Entity implements Subscriber {
     protected Constants.ASTATE currAState;     // Current animation state
     protected Constants.ASTATE prevAState;     // Previous animation state
     protected final EnumSet<Constants.PSTATE> playerStates;       // Set of player states
-    protected int floorContacts; // Number of contacts with the floor to avoid anomalies
-    protected int airIterations;
     protected UtilityStation util;
     private LinkedList<Interactable> interactablesInRange;
 
@@ -33,8 +31,8 @@ public class Player extends Entity implements Subscriber {
         this.util = util;
 
         if (id == 1){
-            setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 20, 20)[0], 1/5f, false, 1);
-        } else if (id == 2){setAnimation(TextureRegion.split(resourceManager.getTexture("p2"), 20, 20)[0], 1/5f, false, 1);}
+            setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1);
+        } else if (id == 2){setAnimation(TextureRegion.split(resourceManager.getTexture("p2"), 32, 32)[0], 1/5f, false, 1);}
 
 
         lives = 3;
@@ -47,15 +45,20 @@ public class Player extends Entity implements Subscriber {
         prevAState = Constants.ASTATE.IDLE;
         movementStates = new LinkedList<>();
 
-        wallState = 0;
-        floorContacts = 0;
-        airIterations = 0;
-
         BodyDef bdef = new BodyDef();
         bdef.position.set(x / Constants.PPM, y / Constants.PPM);
         bdef.fixedRotation = true;
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(5f / Constants.PPM, 8 / Constants.PPM, new Vector2(0, 0), 0);
+        fdef.shape = polygonShape;
+        fdef.isSensor = false;
+        fdef.filter.categoryBits = Constants.BIT_PLAYER;
+        fdef.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_GROUND | Constants.BIT_HAZARD;
+        b2body.createFixture(fdef).setUserData(this);
     }
 
     public void update(float delta) {
@@ -114,7 +117,7 @@ public class Player extends Entity implements Subscriber {
 
             case RIGHT:
                 currAState = Constants.ASTATE.RUN;
-                facingRight = false;
+                facingRight = true;
                 if (prevState == null || prevState == Constants.MSTATE.LEFT) { moveRight(); }
                 if (prevState == Constants.MSTATE.UP) { moveUpRight(); }
                 if (prevState == Constants.MSTATE.DOWN) { moveDownRight(); }
@@ -122,7 +125,6 @@ public class Player extends Entity implements Subscriber {
 
             case UP:
                 currAState = Constants.ASTATE.RUN;
-                facingRight = false;
                 if (prevState == null || prevState == Constants.MSTATE.DOWN) { moveUp(); }
                 if (prevState == Constants.MSTATE.RIGHT) { moveUpRight(); }
                 if (prevState == Constants.MSTATE.LEFT) { moveUpLeft(); }
@@ -130,7 +132,6 @@ public class Player extends Entity implements Subscriber {
 
             case DOWN:
                 currAState = Constants.ASTATE.RUN;
-                facingRight = false;
                 if (prevState == null || prevState == Constants.MSTATE.UP) { moveDown(); }
                 if (prevState == Constants.MSTATE.RIGHT) { moveDownRight(); }
                 if (prevState == Constants.MSTATE.LEFT) { moveDownLeft(); }
@@ -140,50 +141,42 @@ public class Player extends Entity implements Subscriber {
 
     public void moveRight() {
         //Initial acceleration
-        if (b2body.getLinearVelocity().x == 0) b2body.applyLinearImpulse(new Vector2(0.5f, 0), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity(Constants.MAX_SPEED, b2body.getLinearVelocity().y);
+        b2body.setLinearVelocity(Constants.MAX_SPEED, 0);
     }
 
     public void moveLeft() {
         //Initial acceleration
-        if (b2body.getLinearVelocity().x == 0) b2body.applyLinearImpulse(new Vector2(-0.5f, 0), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity(-Constants.MAX_SPEED, b2body.getLinearVelocity().y);
+        b2body.setLinearVelocity(-Constants.MAX_SPEED, 0);
     }
 
     public void moveUp() {
         //Initial acceleration
-        if (b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0, 0.5f), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity(b2body.getLinearVelocity().x, Constants.MAX_SPEED);
+        b2body.setLinearVelocity(0, Constants.MAX_SPEED);
     }
 
     public void moveDown() {
         //Initial acceleration
-        if (b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0, -0.5f), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity(b2body.getLinearVelocity().x, -Constants.MAX_SPEED);
+        b2body.setLinearVelocity(0, -Constants.MAX_SPEED);
     }
 
     public void moveUpRight() {
         //Initial acceleration
-        if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0.5f, 0.5f), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
+        b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     public void moveUpLeft() {
         //Initial acceleration
-        if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(-0.5f, 0.5f), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
+        b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     public void moveDownRight() {
         //Initial acceleration
-        if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0.5f, -0.5f), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
+        b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     public void moveDownLeft() {
         //Initial acceleration
-        if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(-0.5f, -0.5f), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
+        b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     @Override

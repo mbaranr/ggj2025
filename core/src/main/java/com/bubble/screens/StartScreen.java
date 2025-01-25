@@ -98,13 +98,13 @@ public class StartScreen extends ManagedScreen {
         game.batch.begin();
 
         //draw background
-        game.batch.draw(bg, -30, -80, bg.getRegionWidth() * 7.5f, bg.getRegionHeight() * 7.5f);
+        game.batch.draw(bg, -20, 100, bg.getRegionWidth() * 6f, bg.getRegionHeight() * 6f);
         //draw game title mind
-        game.batch.draw(mind, stage.getViewport().getWorldWidth() / 2 - 500, stage.getViewport().getWorldHeight() - 300, mind.getRegionWidth() * 1.4f, mind.getRegionHeight() * 1.4f);
+        // game.batch.draw(mind, stage.getViewport().getWorldWidth() / 2 - 500, stage.getViewport().getWorldHeight() - 300, mind.getRegionWidth() * 1.4f, mind.getRegionHeight() * 1.4f);
         //use water effect
         game.batch.setShader(shaderHandler.getShaderProgram("bubble"));
         //draw game title weaver
-        game.batch.draw(weaver, stage.getViewport().getWorldWidth() / 2 - 150, stage.getViewport().getWorldHeight() - 300, weaver.getRegionWidth() * 2f, weaver.getRegionHeight() * 2f);
+        // game.batch.draw(weaver, stage.getViewport().getWorldWidth() / 2 - 150, stage.getViewport().getWorldHeight() - 300, weaver.getRegionWidth() * 2f, weaver.getRegionHeight() * 2f);
 
         game.batch.setShader(null);
 

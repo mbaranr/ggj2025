@@ -38,7 +38,7 @@ public class B2WorldHandler {
         Body body;
 
         // Create ground
-        for (RectangleMapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
+        for (RectangleMapObject object : map.getLayers().get(0).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = object.getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM, (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
