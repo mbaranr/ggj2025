@@ -20,6 +20,7 @@ public class Bubble extends Entity implements Subscriber {
     private EnumSet<Constants.BSTATE> states;       // Set of player states
     private EntityHandler entityHandler;
     private Player creator;
+    private Vector2 shootigDirection;
 
     public Bubble(World world, int id, MyTimer timer, MyResourceManager myResourceManager, EntityHandler entityHandler, Player creator) {
         super(id, myResourceManager);
@@ -29,6 +30,7 @@ public class Bubble extends Entity implements Subscriber {
         states = EnumSet.noneOf(Constants.BSTATE.class);
         this.entityHandler = entityHandler;
         this.creator = creator;
+        this.shootigDirection = new Vector2(0,0);
 
         setAnimation(TextureRegion.split(resourceManager.getTexture("bubble"), 964, 980)[0], 1/5f, true, 0f);
 
@@ -91,32 +93,48 @@ public class Bubble extends Entity implements Subscriber {
             case IDLE_RIGHT:
                 if (creator.facingRight) {
                     setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y);
+                    this.shootigDirection.x = Constants.BUBBLE_SPEED;
+                    this.shootigDirection.y = 0;
                 } else {
                     setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y);
+                    this.shootigDirection.x = -Constants.BUBBLE_SPEED;
+                    this.shootigDirection.y = 0;
                 }
                 break;
             case RUN_DOWN:
             case IDLE_DOWN:
                 setPosition(creator.getPosition().x, creator.getPosition().y - 32 / Constants.PPM);
+                this.shootigDirection.x = 0;
+                this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 break;
             case RUN_UP:
             case IDLE_UP:
                 setPosition(creator.getPosition().x, creator.getPosition().y + 32 / Constants.PPM);
+                this.shootigDirection.x = 0;
+                this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 break;
             case RUN_UP_RIGHT:
             case IDLE_UP_RIGHT:
                 if (creator.facingRight) {
                     setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y + 32 / Constants.PPM);
+                    this.shootigDirection.x = Constants.BUBBLE_SPEED;
+                    this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 } else {
                     setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y + 32 / Constants.PPM);
+                    this.shootigDirection.x = -Constants.BUBBLE_SPEED;
+                    this.shootigDirection.y = Constants.BUBBLE_SPEED;
                 }
                 break;
             case RUN_DOWN_RIGHT:
             case IDLE_DOWN_RIGHT:
                 if (creator.facingRight) {
                     setPosition(creator.getPosition().x + 32 / Constants.PPM, creator.getPosition().y - 32 / Constants.PPM);
+                    this.shootigDirection.x = Constants.BUBBLE_SPEED;
+                    this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 } else {
                     setPosition(creator.getPosition().x - 32 / Constants.PPM, creator.getPosition().y - 32 / Constants.PPM);
+                    this.shootigDirection.x = -Constants.BUBBLE_SPEED;
+                    this.shootigDirection.y = -Constants.BUBBLE_SPEED;
                 }
                 break;
             default:
@@ -127,7 +145,7 @@ public class Bubble extends Entity implements Subscriber {
     public void pop() {
         world.destroyBody(b2body);
     }
-    
+
     public void addState(Constants.BSTATE state) { states.add(state); }
 
     public boolean isStateActive(Constants.BSTATE state) { return states.contains(state); }
@@ -156,8 +174,15 @@ public class Bubble extends Entity implements Subscriber {
                     timer.start(Constants.TTP, "pop", this);
                 }
             }
-            
+
         }
+        else {
+//            System.out.println(shootigDirection.x);
+//            b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
+            b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
+        }
+
+
     }
 
     public void notify(String flag) {

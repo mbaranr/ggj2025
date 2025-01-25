@@ -64,7 +64,7 @@ public class GameInputProcessor implements InputProcessor {
             case Input.Keys.S: // P1 move down
                 p1.addMovementState(Constants.MSTATE.DOWN);
                 break;
-            case Input.Keys.F:
+            case Input.Keys.SPACE:
                 p1b = new Bubble(world, idCounter.incrementAndGet(), timer, resourceManager, entityHandler, p1);
                 entityHandler.addEntity(p1b);
                 break;
@@ -82,7 +82,10 @@ public class GameInputProcessor implements InputProcessor {
             case Input.Keys.DOWN: // P2 move down
                 p2.addMovementState(Constants.MSTATE.DOWN);
                 break;
-
+            case Input.Keys.ENTER:
+                p2b = new Bubble(world, idCounter.incrementAndGet(), timer, resourceManager, entityHandler, p2);
+                entityHandler.addEntity(p2b);
+                break;
             default:
                 break;
         }
@@ -154,7 +157,7 @@ public class GameInputProcessor implements InputProcessor {
             case Input.Keys.S:
                 p1.removeMovementState(Constants.MSTATE.DOWN);
                 break;
-            case Input.Keys.F:
+            case Input.Keys.SPACE:
                 p1b.addState(Constants.BSTATE.FREE);
                 break;
 
@@ -170,6 +173,9 @@ public class GameInputProcessor implements InputProcessor {
                 break;
             case Input.Keys.DOWN:
                 p2.removeMovementState(Constants.MSTATE.DOWN);
+                break;
+            case Input.Keys.ENTER:
+                p2b.addState(Constants.BSTATE.FREE);
                 break;
             default:
                 break;
