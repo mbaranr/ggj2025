@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.bubble.entities.Player;
 import com.bubble.objects.*;
 import com.bubble.world.*;
 import com.bubble.scenes.HUD;
@@ -29,6 +30,8 @@ public class B2WorldHandler {
         this.resourceManager = resourceManager;
         this.util = util;
 
+        createPlayer(eidAllocator, timer, hud);
+
         BodyDef bdef  = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
@@ -45,7 +48,7 @@ public class B2WorldHandler {
             fdef.filter.categoryBits = Constants.BIT_GROUND;
             body.createFixture(fdef).setUserData("ground");
         }
-  
+
         // fdef = new FixtureDef();
 
         // // Create spikes
@@ -60,6 +63,21 @@ public class B2WorldHandler {
         //     fdef.filter.categoryBits = Constants.BIT_HAZARD;
         //     body.createFixture(fdef).setUserData("spike");
         // }
+
+    }
+
+    public void createPlayer(AtomicInteger eidAllocator, MyTimer timer, HUD hud) {
+
+        Player p1 = null;
+        Player p2 = null;
+
+        p1 = new Player(650,300,world, 1, timer, resourceManager, util);
+        p2 = new Player(600,300,world, 2, timer, resourceManager, util);
+
+//        HUD.setPlayers(p1,p2);
+//        util.getCharacterCycle().initialize(mage);
+        util.getEntityHandler().addPlayer1(p1);
+        util.getEntityHandler().addPlayer2(p2);
 
     }
 

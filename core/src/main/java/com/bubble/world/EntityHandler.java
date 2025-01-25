@@ -1,5 +1,6 @@
 package com.bubble.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bubble.graphics.ShaderHandler;
@@ -14,12 +15,28 @@ public class EntityHandler {
     private final HashMap<Integer, Entity> entities;        // Map of entities with id
     private final LinkedList<EntityOp> entityOps;           // Entity operations to handle
     private final ShaderHandler shaderHandler;
+    private Player p1;
+    private Player p2;
 
     public EntityHandler(ShaderHandler shaderHandler) {
         entityOps = new LinkedList<>();
         entities = new HashMap<>();
         this.shaderHandler = shaderHandler;
     }
+
+    public void addPlayer1(Player p1) {this.p1 = p1;}
+    public void addPlayer2(Player p2) {this.p2 = p2;}
+
+    public Player getPlayer1() {
+        return this.p1;
+
+    }
+
+    public Player getPlayer2() {
+        return this.p2;
+    }
+
+
 
     public void addEntity(Entity entity) {
         entities.put(entity.getID(), entity);
@@ -53,6 +70,8 @@ public class EntityHandler {
     }
 
     public void update(float delta) {
+        p1.update(delta);
+        p2.update(delta);
 
         // Updating all entities
         for (Entity entity : entities.values()) {
@@ -62,6 +81,8 @@ public class EntityHandler {
     }
 
     public void render(SpriteBatch batch) {
+        p1.render(batch);
+        p2.render(batch);
 
         // Rendering entities
         for (Entity entity : entities.values()) {
@@ -79,6 +100,8 @@ public class EntityHandler {
     public LinkedList<Entity> getEntities() {
         return new LinkedList<>(entities.values());
     }
+
+
 
     // Helper entity operation class mapping an entity with an operation
     private class EntityOp {

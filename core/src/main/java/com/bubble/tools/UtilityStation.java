@@ -6,6 +6,7 @@ import com.bubble.audio.MusicManager;
 import com.bubble.graphics.LightManager;
 import com.bubble.graphics.ParticleHandler;
 import com.bubble.graphics.ShaderHandler;
+import com.bubble.listeners.GameInputProcessor;
 import com.bubble.world.EntityHandler;
 import com.bubble.world.ObjectHandler;
 

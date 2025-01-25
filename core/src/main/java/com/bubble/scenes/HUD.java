@@ -34,7 +34,10 @@ public class HUD {
 
         // lifeActor = new LifeActor(resourceManager.getTexture("life"));
         // stage.addActor(lifeActor);
+
+
     }
+
 
     // public void setPlayers(Player player1, Player player2) { lifeActor.setPlayers(player1, player2); }
 
@@ -44,7 +47,7 @@ public class HUD {
     }
 
     // Actor used to draw lives
-    private class LifeActor extends Actor {
+    public class LifeActor extends Actor {
         private final TextureRegion region;
         private Player p1;
         private Player p2;

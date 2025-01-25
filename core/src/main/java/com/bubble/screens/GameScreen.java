@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bubble.Main;
 import com.bubble.audio.MusicManager;
+import com.bubble.entities.Player;
 import com.bubble.graphics.LightManager;
 import com.bubble.graphics.ParticleHandler;
 import com.bubble.graphics.ShaderHandler;
@@ -44,12 +45,13 @@ public class GameScreen extends ManagedScreen {
         this.game = game;
         this.screenManager = screenManager;
 
+
         // Creating tile map
         TmxMapLoader mapLoader = new TmxMapLoader();
         TiledMap map = mapLoader.load("tilemaps/map.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
-        world = new World(new Vector2(0, -Constants.G), true);
+        world = new World(new Vector2(0, 0), true);
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
 
@@ -67,16 +69,27 @@ public class GameScreen extends ManagedScreen {
         EntityHandler entityHandler = new EntityHandler(shaderHandler);
         ParticleHandler particleHandler = new ParticleHandler();
 
-        inputProcessor = new GameInputProcessor(game, screenManager, resourceManager);
-        Gdx.input.setInputProcessor(inputProcessor);
+
+
+
+
 
         // Creating station
         util = new UtilityStation(entityHandler, objectHandler, particleHandler, shaderHandler, lightManager, musicManager);
+
+//        Player p1 = entityHandler.getPlayer1();
+//        Player p2 = entityHandler.getPlayer2();
+
+
+
 
         world.setContactListener(new MyContactListener(util, game.hud, screenManager, resourceManager));
         b2dr = new Box2DDebugRenderer();
         new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, util, game.hud, textureDrawer);     //Creating world
         lightManager.setDim(0.6f);  // Making the environment 40% less bright
+
+        inputProcessor = new GameInputProcessor(game, screenManager, resourceManager,entityHandler);
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     @Override

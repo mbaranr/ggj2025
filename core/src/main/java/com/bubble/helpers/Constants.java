@@ -4,7 +4,7 @@ public class Constants {
     public static final int TILE_SIZE = 32; //Used to maintain constant dimension regardless of machine size
 
     public static final float PPM = 100;    //Pixels per meter
-    public static final float MAX_SPEED = 1.2f;       //Max speed allowed in x-direction
+    public static final float MAX_SPEED = 0.8f;       //Max speed allowed in x-direction
     public static final float TEXT_SPEED = 20;          //Speed at which text prints in cutscene
     public static final float KNOCKBACK_SCALE = 1f;     //Move character backwards when attacked
     public static final float G = 11;                   //Normal gravity for world

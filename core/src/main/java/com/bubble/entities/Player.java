@@ -1,5 +1,6 @@
 package com.bubble.entities;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.bubble.objects.Interactable;
@@ -11,7 +12,7 @@ import java.util.EnumSet;
 import com.bubble.tools.UtilityStation;
 import java.util.LinkedList;
 
-public abstract class Player extends Entity implements Subscriber {
+public class Player extends Entity implements Subscriber {
     protected final MyTimer timer;
     protected final World world;
     protected int wallState;  // -1 for left, 1 for right, 0 for none
@@ -24,12 +25,17 @@ public abstract class Player extends Entity implements Subscriber {
     protected UtilityStation util;
     private LinkedList<Interactable> interactablesInRange;
 
-    public Player(World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation util) {
+    public Player(float x, float y,World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation util) {
 
         super(id, myResourceManager);
         this.timer = timer;
         this.world = world;
         this.util = util;
+
+        if (id == 1){
+            setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 20, 20)[0], 1/5f, false, 1);
+        } else if (id == 2){setAnimation(TextureRegion.split(resourceManager.getTexture("p2"), 20, 20)[0], 1/5f, false, 1);}
+
 
         lives = 3;
         interactablesInRange = new LinkedList<>();
@@ -44,6 +50,12 @@ public abstract class Player extends Entity implements Subscriber {
         wallState = 0;
         floorContacts = 0;
         airIterations = 0;
+
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(x / Constants.PPM, y / Constants.PPM);
+        bdef.fixedRotation = true;
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        b2body = world.createBody(bdef);
     }
 
     public void update(float delta) {
@@ -56,18 +68,18 @@ public abstract class Player extends Entity implements Subscriber {
         handleMovement();
 
         // Animation priority
-        if (isStateActive(Constants.PSTATE.DYING)) {
-          currAState = Constants.ASTATE.DEATH;
-        } else if (isStateActive(Constants.PSTATE.ATTACKING)) {
-            currAState = Constants.ASTATE.ATTACK;
-        } else if (airIterations >= 5) {
-            if (isFalling()) {
-                currAState = Constants.ASTATE.FALL;
-                b2body.setLinearDamping(0);
-            } else {
-                currAState = Constants.ASTATE.JUMP;
-            }
-        }
+//        if (isStateActive(Constants.PSTATE.DYING)) {
+//          currAState = Constants.ASTATE.DEATH;
+//        } else if (isStateActive(Constants.PSTATE.ATTACKING)) {
+//            currAState = Constants.ASTATE.ATTACK;
+//        } else if (airIterations >= 5) {
+//            if (isFalling()) {
+//                currAState = Constants.ASTATE.FALL;
+//                b2body.setLinearDamping(0);
+//            } else {
+//                currAState = Constants.ASTATE.JUMP;
+//            }
+//        }
 
         if (currAState != prevAState) {
             handleAnimation();
@@ -159,7 +171,7 @@ public abstract class Player extends Entity implements Subscriber {
     public void moveUpRight() {
         //Initial acceleration
         if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0.5f, 0.5f), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
+        else b2body.setLinearVelocity((float)(2f / Math.sqrt(2)), (float)(2f / Math.sqrt(2)));
     }
 
     public void moveUpLeft() {
@@ -232,6 +244,7 @@ public abstract class Player extends Entity implements Subscriber {
     public void removeInteractable(Interactable interactable) {
         interactablesInRange.remove(interactable);
     }
+
 
     public void interact() {
         for (Interactable interactable : interactablesInRange) {
