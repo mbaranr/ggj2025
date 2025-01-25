@@ -17,6 +17,8 @@ public class ShaderHandler {
     private final ShaderProgram outlineShader;          // Making the outlines purple
     private final ShaderProgram randColShader;          // Random color tinting
     private final ShaderProgram waterShader;            // Water like movement
+    private final ShaderProgram bubbleShader;            // Bubbles
+
 
     public ShaderHandler(ColourGenerator colourGenerator) {
         this.colourGenerator = colourGenerator;
@@ -25,6 +27,7 @@ public class ShaderHandler {
         // Initializing shader programs
 
         waveShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/wave.glsl").readString());
+        bubbleShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/bubble.glsl").readString());
         blinkShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/blink.glsl").readString());
         redMaskShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/red_mask.glsl").readString());
         outlineShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/outline.glsl").readString());
@@ -44,6 +47,9 @@ public class ShaderHandler {
         }
         if (!redMaskShader.isCompiled()) {
             System.out.println(redMaskShader.getLog());
+        }
+        if (!bubbleShader.isCompiled()) {
+            System.out.println(bubbleShader.getLog());
         }
         if (!outlineShader.isCompiled()) {
             System.out.println(outlineShader.getLog());
@@ -80,9 +86,13 @@ public class ShaderHandler {
         randColShader.setUniformf("b", colourGenerator.getCurrentColour().z);
 
         waterShader.bind();
-        waterShader.setUniformf("u_amount", 2.5f);
+        waterShader.setUniformf("u_amount", 5f);
         waterShader.setUniformf("u_speed", 1f);
         waterShader.setUniformf("u_time", time);
+
+        bubbleShader.bind();
+        bubbleShader.setUniformf("u_time", time);
+
     }
 
     // Returning shader program depending on key
@@ -94,6 +104,7 @@ public class ShaderHandler {
         if (key.equals("rand_col")) return randColShader;
         if (key.equals("alpha")) return alphaShader;
         if (key.equals("water")) return waterShader;
+        if (key.equals("bubble")) return bubbleShader;
         return null;
     }
 }

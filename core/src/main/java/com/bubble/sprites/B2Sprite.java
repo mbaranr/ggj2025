@@ -43,6 +43,8 @@ public abstract class B2Sprite {
         this.resize = resize;
     }
 
+    public Animation getAnimation() { return animation; }
+    
     public void handleAnimation() { }
 
     public void update(float delta) {
@@ -54,7 +56,7 @@ public abstract class B2Sprite {
         if (animation.getFrameNumber() == 0) return;
         batch.begin();
         // With will become negative if facing left
-        batch.draw(animation.getFrame(), facingRight ? b2body.getPosition().x - ((width / resize) / Constants.PPM) / 2 : b2body.getPosition().x + ((width / resize) / Constants.PPM) / 2 , b2body.getPosition().y - ((height / resize) / Constants.PPM) / 2, (facingRight ? width : -width) / Constants.PPM, height / Constants.PPM);
+        batch.draw(animation.getFrame(), facingRight ? b2body.getPosition().x - (width / Constants.PPM) / 2 : b2body.getPosition().x + (width / Constants.PPM) / 2 , b2body.getPosition().y - (height / Constants.PPM) / 2, (facingRight ? width : -width) / Constants.PPM, height / Constants.PPM);
         batch.end();
     }
 

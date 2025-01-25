@@ -14,20 +14,17 @@ import com.bubble.entities.Player;
 import com.bubble.graphics.ShaderHandler;
 import com.bubble.tools.ColourGenerator;
 import com.bubble.tools.MyResourceManager;
-import com.bubble.tools.ShapeDrawer;
 
 public class HUD {
 
     public Stage stage;
     private final Viewport viewport;
     private final MyResourceManager resourceManager;
-    private final ShapeDrawer shapeDrawer;
     // private final LifeActor lifeActor;
 
     public HUD(SpriteBatch batch, MyResourceManager resourceManager) {
         this.resourceManager = resourceManager;
 
-        this.shapeDrawer = new ShapeDrawer(new ShaderHandler(new ColourGenerator()), resourceManager);
 
         viewport = new FitViewport(3840, 2160, new OrthographicCamera());
         stage = new Stage(viewport, batch);

@@ -7,10 +7,10 @@ public class Constants {
     public static final float MAX_SPEED = 0.8f;       //Max speed allowed in x-direction
     public static final float TEXT_SPEED = 20;          //Speed at which text prints in cutscene
     public static final float KNOCKBACK_SCALE = 1f;     //Move character backwards when attacked
-    public static final float G = 11;                   //Normal gravity for world
-    public static final float G_ENHANCED = 13;          //Enhanced gravity for falling in the world
     public static final float BUTTON_WIDTH = 250;       //Button width
     public static final float BUTTON_HEIGHT = 175.5f;   //Button height
+    public static final float BUBBLE_GR = 0.0001f;      //Bubble growth rate
+    public static final float TTP = 6;                  //Time to pop
 
     // Movement state Flag
     public enum MSTATE {
@@ -22,6 +22,11 @@ public class Constants {
     // Player state flag
     public enum PSTATE {
         STUNNED, ON_GROUND, LANDING, ATTACKING, ATTACK_STUN, HIT, DYING
+    }
+
+    // Bubbbles state flag
+    public enum BSTATE {
+        POPPING, FULL
     }
     // Animation state flag
     public enum ASTATE {
@@ -39,6 +44,6 @@ public class Constants {
 
     public static final short BIT_GROUND = 2;   // Includes ground and walls (because sometimes the ground can be a wall)
     public static final short BIT_HAZARD = 4;
-    public static final short BIT_PlAYER = 8;
+    public static final short BIT_PLAYER = 8;
     public static final short BIT_LIGHT = 16;
 }
