@@ -76,7 +76,7 @@ public class GameScreen extends ManagedScreen {
         world.setContactListener(new MyContactListener(util, game.hud, screenManager, resourceManager));
         b2dr = new Box2DDebugRenderer();
         new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, util, game.hud, textureDrawer);     //Creating world
-        lightManager.setDim(0.6f);  // Making the environment 40% less bright
+        lightManager.setDim(0.9f);  // Making the environment 40% less bright
     }
 
     @Override
@@ -120,7 +120,6 @@ public class GameScreen extends ManagedScreen {
 
         gameCam.position.set(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 15.51f / Constants.PPM, 0);
         gameCam.update();
-
     }
 
     @Override
