@@ -172,7 +172,7 @@ public class Player extends Entity implements Subscriber {
     public void moveUpRight() {
         //Initial acceleration
         if (b2body.getLinearVelocity().x == 0 && b2body.getLinearVelocity().y == 0) b2body.applyLinearImpulse(new Vector2(0.5f, 0.5f), b2body.getWorldCenter(), true);
-        else b2body.setLinearVelocity((float)(2f / Math.sqrt(2)), (float)(2f / Math.sqrt(2)));
+        else b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
     }
 
     public void moveUpLeft() {

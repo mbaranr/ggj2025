@@ -39,8 +39,8 @@ public class GameInputProcessor implements InputProcessor {
         switch (keycode) {
             // Player 1 Movement
             case Input.Keys.D:
-                p1.setMovementState(Constants.MSTATE.RIGHT);
-                if (p1.getMovementState() == Constants.MSTATE.UP){p1.setMovementState(Constants.MSTATE.UPRIGHT);}// P1 move right
+                if (p1.getMovementState() == Constants.MSTATE.UP){p1.setMovementState(Constants.MSTATE.UPRIGHT);
+                } else {p1.setMovementState(Constants.MSTATE.RIGHT);}// P1 move right
                 break;
             case Input.Keys.A: // P1 move left
                 p1.setMovementState(Constants.MSTATE.LEFT);
