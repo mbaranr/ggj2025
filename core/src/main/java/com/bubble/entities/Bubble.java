@@ -127,6 +127,8 @@ public class Bubble extends Entity implements Subscriber {
     public void pop() {
         world.destroyBody(b2body);
     }
+    
+    public void addState(Constants.BSTATE state) { states.add(state); }
 
     public boolean isStateActive(Constants.BSTATE state) { return states.contains(state); }
 
@@ -137,9 +139,6 @@ public class Bubble extends Entity implements Subscriber {
 
         if (!states.contains(Constants.BSTATE.FREE)) {
             handlePosition();
-        }
-
-        if (growing) {
             this.resize += Constants.BUBBLE_GR;
 
             this.width = animation.getFrame().getRegionWidth() * resize;

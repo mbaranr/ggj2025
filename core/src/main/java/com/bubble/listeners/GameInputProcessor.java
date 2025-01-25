@@ -24,6 +24,9 @@ public class GameInputProcessor implements InputProcessor {
     private final EntityHandler entityHandler;
     private final World world;
     private final MyTimer timer;
+    private Bubble p1b;
+    private Bubble p2b;
+
 
 
     public GameInputProcessor(Main game, ScreenManager screenManager, MyResourceManager resourceManager, EntityHandler entityHandler, World world, MyTimer timer) {
@@ -35,6 +38,8 @@ public class GameInputProcessor implements InputProcessor {
         this.p2 = entityHandler.getPlayer2();
         this.world = world;
         this.timer = timer;
+        this.p1b = null;
+        this.p2b = null;
     }
 
 
@@ -59,7 +64,8 @@ public class GameInputProcessor implements InputProcessor {
                 p1.addMovementState(Constants.MSTATE.DOWN);
                 break;
             case Input.Keys.F:
-                entityHandler.addEntity(new Bubble(world, 0, timer, resourceManager, entityHandler, p1));
+                p1b = new Bubble(world, 0, timer, resourceManager, entityHandler, p1);
+                entityHandler.addEntity(p1b);
                 break;
 
             // Player 2 Movement
@@ -146,6 +152,10 @@ public class GameInputProcessor implements InputProcessor {
                     break;
             case Input.Keys.S:
                 p1.removeMovementState(Constants.MSTATE.DOWN);
+                break;
+            case Input.Keys.F:
+                p1b.addState(Constants.BSTATE.FREE);
+                p1b = null;
                 break;
 
             // Player 2 Movement Stop
