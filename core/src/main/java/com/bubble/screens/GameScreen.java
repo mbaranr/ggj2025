@@ -46,6 +46,7 @@ public class GameScreen extends ManagedScreen {
         this.screenManager = screenManager;
 
 
+
         // Creating tile map
         TmxMapLoader mapLoader = new TmxMapLoader();
         TiledMap map = mapLoader.load("tilemaps/MAptry1.tmx");
@@ -113,7 +114,7 @@ public class GameScreen extends ManagedScreen {
 
         game.hud.render(game.batch);
 
-        
+
         screenManager.render(delta);
 
         //Uncomment this to render fixture outlines

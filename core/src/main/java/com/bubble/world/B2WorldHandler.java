@@ -74,10 +74,12 @@ public class B2WorldHandler {
         p1 = new Player(650,300,world, 1, timer, resourceManager, util);
         p2 = new Player(600,300,world, 2, timer, resourceManager, util);
 
-//        HUD.setPlayers(p1,p2);
+        hud.setPlayers(p1,p2);
 //        util.getCharacterCycle().initialize(mage);
         util.getEntityHandler().addPlayer1(p1);
         util.getEntityHandler().addPlayer2(p2);
+
+
 
     }
 

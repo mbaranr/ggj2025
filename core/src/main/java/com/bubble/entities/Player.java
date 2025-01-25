@@ -1,6 +1,7 @@
 package com.bubble.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.bubble.objects.Interactable;
@@ -22,6 +23,7 @@ public class Player extends Entity implements Subscriber {
     protected final EnumSet<Constants.PSTATE> playerStates;       // Set of player states
     protected UtilityStation util;
     private LinkedList<Interactable> interactablesInRange;
+    private float currentHealth = 100; // Current health
 
     public Player(float x, float y,World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation util) {
 
@@ -29,6 +31,8 @@ public class Player extends Entity implements Subscriber {
         this.timer = timer;
         this.world = world;
         this.util = util;
+
+
 
         if (id == 1){
             setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1);
@@ -69,13 +73,13 @@ public class Player extends Entity implements Subscriber {
         else if (isStateActive(Constants.PSTATE.STUNNED)) movementStates.clear();
         handleMovement();
         handleAnimation();
-     
+
         // Update the animation
         animation.update(delta);
     }
 
     public void handleMovement() {
-        
+
         if (movementStates.size() == 0) { b2body.setLinearVelocity(0, 0); return; }
 
         int size = movementStates.size();
@@ -217,6 +221,7 @@ public class Player extends Entity implements Subscriber {
         }
     }
 
+
     public void stun(float seconds) {
         addPlayerState(Constants.PSTATE.STUNNED);
         timer.start(seconds, "stun", this);
@@ -272,8 +277,12 @@ public class Player extends Entity implements Subscriber {
         }
         world.destroyBody(b2body);
     }
+    public float getHealth() {
+        return currentHealth; // Replace with your actual health variable
+    }
 
     public void setLives(int lives) {
         this.lives = lives;
     }
+
 }
