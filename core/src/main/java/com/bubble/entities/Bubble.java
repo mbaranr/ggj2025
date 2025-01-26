@@ -30,6 +30,7 @@ public class Bubble extends Entity implements Subscriber {
     private Vector2 shootigDirection;
     private int bounceCounter;
     private PointLight light;
+    private boolean merged;
 
     public Bubble(World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation utilityStation, Player creator, ColourGenerator colourGenerator) {
         super(id, myResourceManager);
@@ -203,8 +204,13 @@ public class Bubble extends Entity implements Subscriber {
             }
         }
         else {
-//            b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
-            b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
+            // b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
+            if(merged){
+                b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
+            }
+            else{
+                b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
+            }
         }
     }
 
@@ -219,9 +225,14 @@ public class Bubble extends Entity implements Subscriber {
             pop();
         }
         else{
-            Vector2 temVector2 = new Vector2();
-            temVector2 = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
-            this.shootigDirection.add(temVector2);
+            this.merged = true;
+            Vector2 temVector = new Vector2();
+            temVector = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
+            System.out.println(shootigDirection + " " + temVector);
+            // this.shootigDirection.scl(10);
+            this.shootigDirection.add(temVector.scl(0.8f));
+            System.out.println(shootigDirection);
+            // this.shootigDirection.scl(-0.005f);
 
             this.width += incomingBubble.width;
             this.height += incomingBubble.height;
@@ -230,8 +241,6 @@ public class Bubble extends Entity implements Subscriber {
             fdef.shape = circle;
 
             incomingBubble.pop();
-            // b2body.destroyFixture(b2body.getFixtureList().get(0));
-            // b2body.createFixture(fdef).setUserData(this);
         }
     }
 
@@ -242,6 +251,7 @@ public class Bubble extends Entity implements Subscriber {
         else { // horizontal
             shootigDirection.x = shootigDirection.x * (-1);
         }
+        merged = true;
         timer.start(0.5f, "bounce", this);
     }
 
