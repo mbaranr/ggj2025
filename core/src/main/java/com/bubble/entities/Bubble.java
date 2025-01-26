@@ -126,6 +126,37 @@ public class Bubble extends Entity implements Subscriber {
         }
     }
 
+    public void release() {
+        addState(Constants.BSTATE.FREE);
+        FixtureDef sensor = new FixtureDef();
+
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(width /2.5f / Constants.PPM, width/10/ Constants.PPM, new Vector2(0, width/2/ Constants.PPM), 0);
+        fdef.shape = polygonShape;
+        fdef.filter.categoryBits = Constants.BIT_BSENSOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("vert");
+
+        polygonShape.setAsBox(width /2.5f/ Constants.PPM, width/10/ Constants.PPM, new Vector2(0, -width/2/ Constants.PPM), 0);
+        fdef.shape = polygonShape;
+        fdef.filter.categoryBits = Constants.BIT_BSENSOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("vert");
+
+        polygonShape.setAsBox(width/10/ Constants.PPM, width /2.5f/ Constants.PPM, new Vector2(width/2/ Constants.PPM, 0), 0);
+        fdef.shape = polygonShape;
+        fdef.filter.categoryBits = Constants.BIT_BSENSOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("hor");
+
+        polygonShape.setAsBox(width/10/ Constants.PPM, width /2.5f/ Constants.PPM, new Vector2(-width/2/ Constants.PPM, 0), 0);
+        fdef.shape = polygonShape;
+        fdef.filter.categoryBits = Constants.BIT_BSENSOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("hor");
+    }
+
+
     public float damage() {
         float sizeFactor = Math.min(this.resize / 0.05f, 1.0f);
         float dmg = 0.5f + (sizeFactor * 9.5f);

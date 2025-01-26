@@ -45,4 +45,5 @@ public class Constants {
     public static final short BIT_HAZARD = 4;
     public static final short BIT_PLAYER = 8;
     public static final short BIT_LIGHT = 16;
+    public static final short BIT_BSENSOR = 32;
 }

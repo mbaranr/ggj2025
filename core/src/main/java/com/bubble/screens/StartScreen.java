@@ -24,7 +24,7 @@ public class StartScreen extends ManagedScreen {
     private final Stage stage;                          //use as input processor for start screen
     private final float buttonWidth, buttonHeight;
     private Array<ImageButton> buttons;
-    private final TextureRegion mind, weaver, bg;  //textures for start screen art
+    private final TextureRegion bg;  //textures for start screen art
     private final ShaderHandler shaderHandler;          //for game title effect
 
     public StartScreen(Main game, MyResourceManager resourceManager, ScreenManager screenManager) {
@@ -39,8 +39,6 @@ public class StartScreen extends ManagedScreen {
         this.buttonHeight = Constants.BUTTON_HEIGHT;
 
         //load start screen art
-        mind = new TextureRegion(resourceManager.getTexture("mind"));
-        weaver = new TextureRegion(resourceManager.getTexture("weaver"));
         bg = new TextureRegion(resourceManager.getTexture("start_bg"));
 
         initStartScreen();  //initialize start screen
@@ -61,7 +59,7 @@ public class StartScreen extends ManagedScreen {
 
         //set position, size and click outcome of button
         final ImageButton button = new ImageButton(buttonStyle);
-        button.setPosition((Gdx.graphics.getWidth() - button.getWidth())/2 , (Gdx.graphics.getHeight() - button.getHeight())/2 - offset);
+        button.setPosition((Gdx.graphics.getWidth() - button.getWidth())/2 - 30 , (Gdx.graphics.getHeight() - button.getHeight())/2 - offset);
         button.getImageCell().size(width, height);
         button.addListener(new ClickListener() {
             @Override
