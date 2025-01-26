@@ -57,9 +57,7 @@ public final class ScreenManager {
             case GAME:   //load level 1
                 musicManager.stop();
                 musicManager.play("music/main_theme.mp3");
-//                if (currScreen instanceof GameScreen) {
-//                    currScreen.dispose();
-//                }
+
                 currScreen = new GameScreen(game, resourceManager, this, musicManager);
                 break;
             case EXIT:  //dispose all resources and exit the application
