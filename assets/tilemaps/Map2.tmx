@@ -3,14 +3,13 @@
  <tileset firstgid="1" source="tsx/land_6.tsx"/>
  <tileset firstgid="57" source="tsx/lake.tsx"/>
  <tileset firstgid="159" source="tsx/forestStructures2.tsx"/>
- <tileset firstgid="302" source="tsx/the-evening-gale-3-level-frigate-sailing-vessel-with-png-v0-c5weddptvcva1.tsx"/>
+ <tileset firstgid="302" source="tsx/Boats.tsx"/>
  <tileset firstgid="302" source="tsx/forestStructures.tsx"/>
  <tileset firstgid="456" source="tsx/Palm_tree2_2.tsx"/>
  <tileset firstgid="460" source="tsx/Assets_shadows_source.tsx"/>
  <tileset firstgid="670" source="tsx/road_5.tsx"/>
  <tileset firstgid="672" source="tsx/Sample2.tsx"/>
  <tileset firstgid="912" source="tsx/forestProps.tsx"/>
- <tileset firstgid="1197" source="decor_1.tsx"/>
  <tileset firstgid="1197" source="tsx/land.tsx"/>
  <tileset firstgid="1261" source="tsx/blueUmbrella.tsx"/>
  <tileset firstgid="1265" source="tsx/lightblueUmbrela.tsx"/>
@@ -18,8 +17,8 @@
  <tileset firstgid="1273" source="tsx/bluebench.tsx"/>
  <tileset firstgid="1275" source="tsx/pinkBench.tsx"/>
  <tileset firstgid="1277" source="tsx/sandCastle.tsx"/>
- <tileset firstgid="1278" source="three-fence.tsx"/>
- <tileset firstgid="1279" source="two-fence.tsx"/>
+ <tileset firstgid="1278" source="tsx/three-fence.tsx"/>
+ <tileset firstgid="1279" source="tsx/two-fence.tsx"/>
  <tileset firstgid="1280" source="tsx/fence.tsx"/>
  <tileset firstgid="1281" source="tsx/fountain.tsx"/>
  <tileset firstgid="1282" source="tsx/sharkFin.tsx"/>

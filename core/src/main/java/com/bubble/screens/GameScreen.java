@@ -47,7 +47,7 @@ public class GameScreen extends ManagedScreen {
 
         // Creating tile map
         TmxMapLoader mapLoader = new TmxMapLoader();
-        TiledMap map = mapLoader.load("tilemaps/MAptry1.tmx");
+        TiledMap map = mapLoader.load("tilemaps/Map2.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
