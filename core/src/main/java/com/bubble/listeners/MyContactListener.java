@@ -41,6 +41,8 @@ public class MyContactListener implements ContactListener {
                 Bubble bubble = (Bubble) (fa.getUserData() instanceof Bubble ? fa.getUserData() : fb.getUserData());
                 Player player = (Player) (fa.getUserData() instanceof Player ? fa.getUserData() : fb.getUserData());
                 if (bubble.creator != player) {
+                    float dmg = bubble.damage();
+                    player.takeDamage(dmg);
                     bubble.pop();
                     return;
                 }

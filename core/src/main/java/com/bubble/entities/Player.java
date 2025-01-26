@@ -296,6 +296,11 @@ public class Player extends Entity implements Subscriber {
         }
         world.destroyBody(b2body);
     }
+
+    public void takeDamage(float damage) {
+        currentHealth = Math.max(currentHealth - damage, 0);
+    }
+
     public float getHealth() {
         return currentHealth; // Replace with your actual health variable
     }
