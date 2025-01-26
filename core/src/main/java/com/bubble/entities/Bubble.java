@@ -117,7 +117,10 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void pop() {
-        entityHandler.addEntityOperation(this, "pop");
+        if (!isStateActive(Constants.BSTATE.POPPED)) {
+            states.add(Constants.BSTATE.POPPED);
+            entityHandler.addEntityOperation(this, "pop");
+        }
     }
 
     public void addState(Constants.BSTATE state) { states.add(state); }
