@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.bubble.objects.Interactable;
+import com.bubble.screens.ScreenManager;
 import com.bubble.tools.MyResourceManager;
 import com.bubble.tools.MyTimer;
 import com.bubble.helpers.Subscriber;
@@ -23,14 +24,18 @@ public class Player extends Entity implements Subscriber {
     protected final EnumSet<Constants.PSTATE> playerStates;       // Set of player states
     protected UtilityStation util;
     private LinkedList<Interactable> interactablesInRange;
+    public boolean dead;
+    private ScreenManager screenManager;
     private float currentHealth = 100; // Current health
 
-    public Player(float x, float y,World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation util) {
+    public Player(float x, float y,World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation util, ScreenManager screenManager) {
 
         super(id, myResourceManager);
         this.timer = timer;
         this.world = world;
         this.util = util;
+        this.screenManager = screenManager;
+        dead = false;
 
         setAnimation(TextureRegion.split(resourceManager.getTexture((id == 2) ? "idle2" : "idle"), 32, 32)[0], 1/5f, false, 1);
 
@@ -64,6 +69,12 @@ public class Player extends Entity implements Subscriber {
 
         // Update the animation
         animation.update(delta);
+
+        if (currentHealth <= 0) {
+            setAnimation(TextureRegion.split(resourceManager.getTexture((ID == 2) ? "die2" : "die"), 32, 32)[0], 1/5f, true, 1);
+            b2body.setLinearVelocity(0, 0);
+            return;
+        }
 
         // Capping y velocity
         if (isStateActive(Constants.PSTATE.DYING)) movementStates.clear();
@@ -223,8 +234,8 @@ public class Player extends Entity implements Subscriber {
             case "stop":
                 // movementState = Constants.MSTATE.STILL;
                 break;
-            case "hit":
-                removePlayerState(Constants.PSTATE.HIT);
+            case "reset":
+                screenManager.pushScreen(Constants.SCREEN_OP.GAME, "");
                 break;
             case "death_and_disposal":
                 dispose();
@@ -244,13 +255,8 @@ public class Player extends Entity implements Subscriber {
 
     @Override
     public void die() {
-        lives--;
-        timer.start(0.05f, "hit", this);
-        addPlayerState(Constants.PSTATE.HIT);
-        if (lives == 0 && !isStateActive(Constants.PSTATE.DYING)) {
-            timer.start(2f, "death_and_disposal", this);
-            addPlayerState(Constants.PSTATE.DYING);
-        }
+        
+        timer.start(5, "reset", this);
     }
 
     public void addInteractable(Interactable interactable) {

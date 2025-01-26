@@ -253,7 +253,7 @@ public class Bubble extends Entity implements Subscriber {
         bounceCounter++;
         this.merged = true;
 
-        if (bounceCounter == 3) {
+        if (bounceCounter == 5) {
             pop();
             return;
         }
@@ -263,7 +263,7 @@ public class Bubble extends Entity implements Subscriber {
         else { // horizontal
             shootigDirection.x = shootigDirection.x * (-1);
         }
-        timer.start(0.3f, "bounce", this);
+        timer.start(0.15f, "bounce", this);
     }
 
     public void notify(String flag) {
