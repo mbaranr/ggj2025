@@ -10,7 +10,7 @@ public class Constants {
     public static final float BUTTON_WIDTH = 250;       //Button width
     public static final float BUTTON_HEIGHT = 175.5f;   //Button height
     public static final float BUBBLE_GR = 0.0005f;      //Bubble growth rate
-    public static final float TTP = 6;                  //Time to pop
+    public static final float TTP = 5;                  //Time to pop
     public static final float BUBBLE_SPEED = 0.2f;
 
     // Movement state Flag
@@ -25,7 +25,7 @@ public class Constants {
 
     // Bubbbles state flag
     public enum BSTATE {
-        POPPING, FULL, FREE
+        POPPING, FULL, FREE, POPPED
     }
     // Animation state flag
     public enum ASTATE {

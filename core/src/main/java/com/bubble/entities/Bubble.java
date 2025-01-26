@@ -21,6 +21,7 @@ public class Bubble extends Entity implements Subscriber {
     private EntityHandler entityHandler;
     public Player creator;
     private Vector2 shootigDirection;
+    private int bounceCounter;
 
     public Bubble(World world, int id, MyTimer timer, MyResourceManager myResourceManager, EntityHandler entityHandler, Player creator) {
         super(id, myResourceManager);
@@ -31,6 +32,8 @@ public class Bubble extends Entity implements Subscriber {
         this.entityHandler = entityHandler;
         this.creator = creator;
         this.shootigDirection = new Vector2(0,0);
+        //time to live
+        timer.start(10, "pop", this);
 
         setAnimation(TextureRegion.split(resourceManager.getTexture("bubble"), 964, 980)[0], 1/5f, true, 0f);
 
@@ -114,7 +117,10 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void pop() {
-        entityHandler.addEntityOperation(this, "pop");
+        if (!isStateActive(Constants.BSTATE.POPPED)) {
+            states.add(Constants.BSTATE.POPPED);
+            entityHandler.addEntityOperation(this, "pop");
+        }
     }
 
     public void addState(Constants.BSTATE state) { states.add(state); }
@@ -136,8 +142,10 @@ public class Bubble extends Entity implements Subscriber {
 
                 circle.setRadius(this.width / Constants.PPM / 2);
                 fdef.shape = circle;
-
-                b2body.destroyFixture(b2body.getFixtureList().get(0));
+                
+                if (b2body.getFixtureList().size != 0) {
+                    b2body.destroyFixture(b2body.getFixtureList().get(0));
+                }
                 b2body.createFixture(fdef).setUserData(this);
 
                 if (this.resize >= 0.05f) {
@@ -158,12 +166,12 @@ public class Bubble extends Entity implements Subscriber {
 
     public void bubbleMerge(Bubble incomingBubble) {
         if (incomingBubble.width == this.width && incomingBubble.height == this.height) {
-            b2body.destroyFixture(b2body.getFixtureList().get(0));
             incomingBubble.pop();
-            entityHandler.addEntityOperation(incomingBubble, "pop");
         }
         else{
-            this.shootigDirection = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
+            Vector2 temVector2 = new Vector2();
+            temVector2 = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
+            this.shootigDirection.add(temVector2);
 
             this.width += incomingBubble.width;
             this.height += incomingBubble.height;
@@ -171,9 +179,13 @@ public class Bubble extends Entity implements Subscriber {
             circle.setRadius(this.width / Constants.PPM / 2);
             fdef.shape = circle;
 
-            b2body.destroyFixture(b2body.getFixtureList().get(0));
-            b2body.createFixture(fdef).setUserData(this);
+            // b2body.destroyFixture(b2body.getFixtureList().get(0));
+            // b2body.createFixture(fdef).setUserData(this);
         }
+    }
+
+    public void bounce(){
+        // this
     }
 
     public void notify(String flag) {

@@ -21,7 +21,7 @@ public abstract class B2Sprite {
      * Between 0 and 1 to shrink
      * Greater than 1 to expand
      */
-    protected float resize;
+    public float resize;
 
     public B2Sprite() {
         animation = new Animation();

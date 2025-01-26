@@ -35,8 +35,12 @@ public class Main extends Game {
 	// Loading sprites to the resource manager for later use
 	public void loadSprites() {
 
-        resourceManager.loadTexture("player/player.png", "p1");
-        resourceManager.loadTexture("player/player.png", "p2");
+        resourceManager.loadTexture("player/run_right.png", "run_right");
+        resourceManager.loadTexture("player/run_down.png", "run_down");
+		resourceManager.loadTexture("player/run_up.png", "run_up");
+		resourceManager.loadTexture("player/run_down_right.png", "run_down_right");
+        resourceManager.loadTexture("player/run_up_right.png", "run_up_right");
+        resourceManager.loadTexture("player/idle.png", "idle");
 
 
 		//Start Screen buttons
