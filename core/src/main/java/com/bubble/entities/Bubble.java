@@ -163,7 +163,9 @@ public class Bubble extends Entity implements Subscriber {
             entityHandler.addEntityOperation(incomingBubble, "pop");
         }
         else{
-            this.shootigDirection = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
+            Vector2 temVector2 = new Vector2();
+            temVector2 = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
+            this.shootigDirection.add(temVector2);
 
             this.width += incomingBubble.width;
             this.height += incomingBubble.height;
