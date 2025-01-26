@@ -37,10 +37,12 @@ public class UtilityStation {
     }
 
     public void render(SpriteBatch batch, float delta) {
-        particleHandler.render(batch, delta);
         objectHandler.render(batch);
         lightManager.render();
         entityHandler.render(batch);
+        batch.setShader(shaderHandler.getShaderProgram("rand_col"));
+        particleHandler.render(batch, delta);
+        batch.setShader(null);
     }
 
     public ObjectHandler getObjectHandler() {

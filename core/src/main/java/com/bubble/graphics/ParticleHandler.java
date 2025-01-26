@@ -10,66 +10,26 @@ import java.util.LinkedList;
 public class ParticleHandler {
 
     // Using particle pools to avoid garbage collection
-    private ParticleEffectPool dustGroundEffectPool;
-    private ParticleEffectPool dustWallEffectPool;
-    private ParticleEffectPool airRightEffectPool;
-    private ParticleEffectPool airLeftEffectPool;
-    private ParticleEffectPool auraEffectPool;
+    private ParticleEffectPool bubbleEffectPool;
     private LinkedList<PooledEffect> effects;
 
     public ParticleHandler() {
 
         effects = new LinkedList<>();
 
-        float scaleFactor = 1 / 2000f;
+        ParticleEffect bubbles = new ParticleEffect();
+        bubbles.load(Gdx.files.internal("particles/bubble.p"), Gdx.files.internal("particles"));
 
-        // Initializing particle effects
-
-        ParticleEffect dustGround = new ParticleEffect();
-        dustGround.load(Gdx.files.internal("particles/dust_ground.p"), Gdx.files.internal("particles"));
-        dustGround.scaleEffect(scaleFactor);
-
-        ParticleEffect dustWall = new ParticleEffect();
-        dustWall.load(Gdx.files.internal("particles/dust_wall.p"), Gdx.files.internal("particles"));
-        dustWall.scaleEffect(scaleFactor);
-
-        ParticleEffect airRight = new ParticleEffect();
-        airRight.load(Gdx.files.internal("particles/air_right.p"), Gdx.files.internal("particles"));
-        airRight.scaleEffect(scaleFactor);
-
-        ParticleEffect airLeft = new ParticleEffect();
-        airLeft.load(Gdx.files.internal("particles/air_left.p"), Gdx.files.internal("particles"));
-        airLeft.scaleEffect(scaleFactor);
-
-        ParticleEffect aura = new ParticleEffect();
-        aura.load(Gdx.files.internal("particles/aura.p"), Gdx.files.internal("particles"));
-        aura.scaleEffect(scaleFactor);
-
-        airRightEffectPool = new ParticleEffectPool(airRight, 1, 2);
-        dustGroundEffectPool = new ParticleEffectPool(dustGround, 1, 2);
-        dustWallEffectPool = new ParticleEffectPool(dustWall, 1, 2);
-        airLeftEffectPool = new ParticleEffectPool(airLeft, 1, 2);
-        auraEffectPool = new ParticleEffectPool(aura, 1, 2);
+        bubbleEffectPool = new ParticleEffectPool(bubbles, 1, 2);
+        
     }
 
     // Adding particle effect based on the provided key
-    public void addParticleEffect(String key, float x, float y) {
+    public void addParticleEffect(String key, float x, float y, float scale) {
         PooledEffect effect = null;
         switch (key) {
-            case "dust_ground":
-                effect = dustGroundEffectPool.obtain();
-                break;
-            case "dust_wall":
-                effect = dustWallEffectPool.obtain();
-                break;
-            case "air_right":
-                effect = airRightEffectPool.obtain();
-                break;
-            case "air_left":
-                effect = airLeftEffectPool.obtain();
-                break;
-            case "aura":
-                effect = auraEffectPool.obtain();
+            case "bubble":
+                effect = bubbleEffectPool.obtain();
                 break;
             default:
                 break;
@@ -78,6 +38,7 @@ public class ParticleHandler {
         // Making sure the effect is not null
         assert effect != null;
         effect.setPosition(x, y);
+        effect.scaleEffect(scale);
         effects.add(effect);
     }
 

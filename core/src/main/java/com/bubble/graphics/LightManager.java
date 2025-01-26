@@ -33,13 +33,18 @@ public class LightManager {
     }
 
     // Adding a single point of light
-    public void addPointLight(Body body, float distance, short maskBits, Color color) {
+    public PointLight addPointLight(Body body, float distance, short maskBits, Color color) {
         PointLight pointLight = new PointLight(rayHandler, 30, color, distance / Constants.PPM, 0, 0);
         pointLight.attachToBody(body);
         pointLight.setSoftnessLength(0);
         pointLight.setContactFilter(Constants.BIT_LIGHT, (short) 0, maskBits);
+        return pointLight;
     }
 
+    public void changeLightColor(PointLight pointLight, Color newColor) {
+        pointLight.setColor(newColor);
+    }
+    
     //Add a cone-shaped light
     public void addConeLight(float x, float y, float distance, Color color, float directionDegree, float coneDegree) {
         new ConeLight(rayHandler, 100, color, distance / Constants.PPM, x, y, directionDegree, coneDegree);
