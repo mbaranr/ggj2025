@@ -116,6 +116,13 @@ public class Bubble extends Entity implements Subscriber {
         }
     }
 
+    public float damage() {
+        float sizeFactor = Math.min(this.resize / 0.05f, 1.0f);
+        float dmg = 0.5f + (sizeFactor * 9.5f);
+
+        return Math.max(0.5f, Math.min(dmg, 10.0f));
+    }
+
     public void pop() {
         if (!isStateActive(Constants.BSTATE.POPPED)) {
             states.add(Constants.BSTATE.POPPED);
@@ -142,7 +149,7 @@ public class Bubble extends Entity implements Subscriber {
 
                 circle.setRadius(this.width / Constants.PPM / 2);
                 fdef.shape = circle;
-                
+
                 if (b2body.getFixtureList().size != 0) {
                     b2body.destroyFixture(b2body.getFixtureList().get(0));
                 }
