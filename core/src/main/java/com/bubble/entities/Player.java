@@ -31,9 +31,8 @@ public class Player extends Entity implements Subscriber {
         this.util = util;
 
         if (id == 1){
-            setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1);
-        } else if (id == 2){setAnimation(TextureRegion.split(resourceManager.getTexture("p2"), 32, 32)[0], 1/5f, false, 1);}
-
+            setAnimation(TextureRegion.split(resourceManager.getTexture("idle"), 32, 32)[0], 1/5f, true, 1);
+        } else if (id == 2){ setAnimation(TextureRegion.split(resourceManager.getTexture("idle"), 32, 32)[0], 1/5f, true, 1); }
 
         lives = 3;
         interactablesInRange = new LinkedList<>();
@@ -63,15 +62,39 @@ public class Player extends Entity implements Subscriber {
 
     public void update(float delta) {
 
-        // Capping y velocity
+        // Update the animation
+        animation.update(delta);
 
+        // Capping y velocity
         if (isStateActive(Constants.PSTATE.DYING)) movementStates.clear();
         else if (isStateActive(Constants.PSTATE.STUNNED)) movementStates.clear();
         handleMovement();
-        handleAnimation();
-     
-        // Update the animation
-        animation.update(delta);
+
+        if (movementStates.size() == 0) {
+            switch (currAState) {
+                case RUN_DOWN:
+                    currAState = Constants.ASTATE.IDLE_DOWN;
+                    break;
+                case RUN_UP:
+                    currAState = Constants.ASTATE.IDLE_UP;
+                    break;
+                case RUN_UP_RIGHT:
+                    currAState = Constants.ASTATE.IDLE_UP_RIGHT;
+                    break;
+                case RUN_DOWN_RIGHT:
+                    currAState = Constants.ASTATE.IDLE_DOWN_RIGHT;
+                    break;
+                case RUN_RIGHT:
+                    currAState = Constants.ASTATE.IDLE_RIGHT;
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (currAState != prevAState) {
+            handleAnimation();
+            prevAState = currAState;
+        }
     }
 
     public void handleMovement() {
@@ -94,52 +117,48 @@ public class Player extends Entity implements Subscriber {
                 if (prevState == Constants.MSTATE.UP) { moveUpLeft(); }
                 if (prevState == Constants.MSTATE.DOWN) { moveDownLeft(); }
                 break;
-
             case RIGHT:
                 facingRight = true;
                 if (prevState == null || prevState == Constants.MSTATE.LEFT) { moveRight(); }
                 if (prevState == Constants.MSTATE.UP) { moveUpRight(); }
                 if (prevState == Constants.MSTATE.DOWN) { moveDownRight(); }
                 break;
-
             case UP:
                 if (prevState == null || prevState == Constants.MSTATE.DOWN) { moveUp(); }
                 if (prevState == Constants.MSTATE.RIGHT) { moveUpRight(); }
                 if (prevState == Constants.MSTATE.LEFT) { moveUpLeft(); }
                 break;
-
             case DOWN:
                 if (prevState == null || prevState == Constants.MSTATE.UP) { moveDown(); }
                 if (prevState == Constants.MSTATE.RIGHT) { moveDownRight(); }
                 if (prevState == Constants.MSTATE.LEFT) { moveDownLeft(); }
                 break;
         }
-
     }
 
     public void handleAnimation() {
-        boolean idle = (movementStates.size() == 0) ? true : false;
         switch (currAState) {
             case RUN_DOWN:
-                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_DOWN; }
-                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("run_down"), 32, 32)[0], 1/5f, true, 1);
                 break;
             case RUN_UP:
-                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_UP; }
-                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("run_up"), 32, 32)[0], 1/5f, true, 1);
                 break;
             case RUN_RIGHT:
-                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_RIGHT; }
-                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("run_right"), 32, 32)[0], 1/5f, true, 1);
                 break;
             case RUN_UP_RIGHT:
-                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_UP_RIGHT; }
-                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("run_up_right"), 32, 32)[0], 1/5f, true, 1);
                 break;
             case RUN_DOWN_RIGHT:
-                if (idle) { setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, false, 1); currAState = Constants.ASTATE.IDLE_DOWN_RIGHT; }
-                else setAnimation(TextureRegion.split(resourceManager.getTexture("p1"), 32, 32)[0], 1/5f, true, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("run_down_right"), 32, 32)[0], 1/5f, true, 1);
                 break;
+            case IDLE_DOWN:
+            case IDLE_RIGHT:
+            case IDLE_UP:
+            case IDLE_DOWN_RIGHT:
+            case IDLE_UP_RIGHT:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("idle"), 32, 32)[0], 1/5f, true, 1);
             default:
                 break;
         }

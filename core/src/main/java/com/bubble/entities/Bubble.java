@@ -136,8 +136,10 @@ public class Bubble extends Entity implements Subscriber {
 
                 circle.setRadius(this.width / Constants.PPM / 2);
                 fdef.shape = circle;
-
-                b2body.destroyFixture(b2body.getFixtureList().get(0));
+                
+                if (b2body.getFixtureList().size != 0) {
+                    b2body.destroyFixture(b2body.getFixtureList().get(0));
+                }
                 b2body.createFixture(fdef).setUserData(this);
 
                 if (this.resize >= 0.05f) {
@@ -158,9 +160,7 @@ public class Bubble extends Entity implements Subscriber {
 
     public void bubbleMerge(Bubble incomingBubble) {
         if (incomingBubble.width == this.width && incomingBubble.height == this.height) {
-            b2body.destroyFixture(b2body.getFixtureList().get(0));
             incomingBubble.pop();
-            entityHandler.addEntityOperation(incomingBubble, "pop");
         }
         else{
             this.shootigDirection = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
@@ -171,8 +171,8 @@ public class Bubble extends Entity implements Subscriber {
             circle.setRadius(this.width / Constants.PPM / 2);
             fdef.shape = circle;
 
-            b2body.destroyFixture(b2body.getFixtureList().get(0));
-            b2body.createFixture(fdef).setUserData(this);
+            // b2body.destroyFixture(b2body.getFixtureList().get(0));
+            // b2body.createFixture(fdef).setUserData(this);
         }
     }
 
