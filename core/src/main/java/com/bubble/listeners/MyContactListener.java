@@ -57,6 +57,12 @@ public class MyContactListener implements ContactListener {
             Bubble b1 = (Bubble) fa.getUserData();
             Bubble b2 = (Bubble) fb.getUserData();
             b1.bubbleMerge(b2);
+        } else if (fa.getUserData().equals("vert") || fa.getUserData().equals("hor")) {
+            Bubble bubble = (Bubble) entityHandler.getEntity(fa.getBody());
+            bubble.bounce(fa.getUserData().equals("vert") ? true : false);
+        } else if (fb.getUserData().equals("vert") || fb.getUserData().equals("hor")) {
+            Bubble bubble = (Bubble) entityHandler.getEntity(fb.getBody());
+            bubble.bounce(fb.getUserData().equals("vert") ? true : false);
         }
     }
 
