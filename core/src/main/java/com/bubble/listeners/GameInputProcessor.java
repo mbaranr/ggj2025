@@ -118,7 +118,9 @@ public class GameInputProcessor implements InputProcessor {
                 p1.removeMovementState(Constants.MSTATE.DOWN);
                 break;
             case Input.Keys.SPACE:
-                p1b.release();
+                if (p1b != null) {
+                    p1b.release();
+                }
                 break;
 
             // Player 2 Movement Stop
@@ -135,7 +137,9 @@ public class GameInputProcessor implements InputProcessor {
                 p2.removeMovementState(Constants.MSTATE.DOWN);
                 break;
             case Input.Keys.ENTER:
-                p2b.release();
+                if (p2b != null) {
+                    p2b.release();
+                }
                 break;
             default:
                 break;
