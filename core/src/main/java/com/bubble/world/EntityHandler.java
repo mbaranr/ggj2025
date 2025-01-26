@@ -79,6 +79,7 @@ public class EntityHandler {
             entity.update(delta);
         }
         handleEntities();
+        System.out.println(entities.size());
     }
 
     public void render(SpriteBatch batch) {
