@@ -44,6 +44,8 @@ public class Bubble extends Entity implements Subscriber {
         //time to live
         timer.start(10, "pop", this);
 
+        bounceCounter = 0;
+
         setAnimation(TextureRegion.split(resourceManager.getTexture("bubble"), 964, 980)[0], 1/5f, true, 0f);
 
         // Defining a body
@@ -204,13 +206,8 @@ public class Bubble extends Entity implements Subscriber {
             }
         }
         else {
-            // b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
-            if(merged){
-                b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
-            }
-            else{
-                b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
-            }
+            // b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);/
+            b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
         }
     }
 
@@ -232,7 +229,7 @@ public class Bubble extends Entity implements Subscriber {
             // this.shootigDirection.scl(10);
             this.shootigDirection.add(temVector.scl(0.8f));
             System.out.println(shootigDirection);
-            // this.shootigDirection.scl(-0.005f);
+            this.shootigDirection.scl(-0.005f);
 
             this.width += incomingBubble.width;
             this.height += incomingBubble.height;
@@ -245,14 +242,20 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void bounce(boolean bbl){
+        b2body.setLinearVelocity(0, 0);
+        bounceCounter++;
+
+        if (bounceCounter == 3) {
+            pop();
+            return;
+        }
         if(bbl){// vertical
             shootigDirection.y = shootigDirection.y * (-1);
         }
         else { // horizontal
             shootigDirection.x = shootigDirection.x * (-1);
         }
-        merged = true;
-        timer.start(0.5f, "bounce", this);
+        timer.start(0.3f, "bounce", this);
     }
 
     public void notify(String flag) {
