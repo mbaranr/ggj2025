@@ -14,6 +14,13 @@ Last Bubble Bender is a high-energy, local-multiplayer arcade game where two mis
   <img src="assets/objects/bubble_burst.png" alt="demo" width="300"/>
 </div>
 
+## Build and Run
+
+```
+cd ggj2025
+./run.sh
+```
+
 ## Credits
 
 * [m4mbo](https://github.com/m4mbo)
