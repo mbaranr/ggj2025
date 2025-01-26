@@ -183,7 +183,7 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void bubbleMerge(Bubble incomingBubble) {
-        if (Math.abs(incomingBubble.width - this.width) <= 4) { // checks within a range of 16 in size
+        if (Math.abs(incomingBubble.width - this.width) <= 2) { // checks within a range of 2 in size
             incomingBubble.pop();
             pop();
         }
@@ -198,13 +198,13 @@ public class Bubble extends Entity implements Subscriber {
             circle.setRadius(this.width / Constants.PPM / 2);
             fdef.shape = circle;
 
+            incomingBubble.pop();
             // b2body.destroyFixture(b2body.getFixtureList().get(0));
             // b2body.createFixture(fdef).setUserData(this);
         }
     }
 
     public void bounce(boolean bbl){
-        // this.b2body.
         if(bbl){// vertical
             shootigDirection.y = shootigDirection.y * (-1);
         }
