@@ -206,8 +206,12 @@ public class Bubble extends Entity implements Subscriber {
             }
         }
         else {
-            // b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);/
-            b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
+            if(merged){
+                b2body.setLinearVelocity(this.shootigDirection.x, this.shootigDirection.y);
+            }
+            else{
+                b2body.applyLinearImpulse(this.shootigDirection, b2body.getWorldCenter(), true);
+            }
         }
     }
 
@@ -229,7 +233,7 @@ public class Bubble extends Entity implements Subscriber {
             // this.shootigDirection.scl(10);
             this.shootigDirection.add(temVector.scl(0.8f));
             System.out.println(shootigDirection);
-            this.shootigDirection.scl(-0.005f);
+            // this.shootigDirection.scl(-0.005f);
 
             this.width += incomingBubble.width;
             this.height += incomingBubble.height;
@@ -242,8 +246,12 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void bounce(boolean bbl){
+        
+        this.shootigDirection = this.b2body.getLinearVelocity();
         b2body.setLinearVelocity(0, 0);
+
         bounceCounter++;
+        this.merged = true;
 
         if (bounceCounter == 3) {
             pop();
