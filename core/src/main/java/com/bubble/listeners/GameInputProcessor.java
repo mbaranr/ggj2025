@@ -69,6 +69,7 @@ public class GameInputProcessor implements InputProcessor {
                 p1.addMovementState(Constants.MSTATE.DOWN);
                 break;
             case Input.Keys.SPACE:
+                if (p1.dead) {break;}
                 colourGenerator.getNextColor();
                 p1b = new Bubble(world, idCounter.incrementAndGet(), timer, resourceManager, utilityStation, p1, colourGenerator);
                 utilityStation.getEntityHandler().addEntity(p1b);
@@ -88,6 +89,7 @@ public class GameInputProcessor implements InputProcessor {
                 p2.addMovementState(Constants.MSTATE.DOWN);
                 break;
             case Input.Keys.ENTER:
+                if (p2.dead) {break;}
                 colourGenerator.getNextColor();
                 p2b = new Bubble(world, idCounter.incrementAndGet(), timer, resourceManager, utilityStation, p2, colourGenerator);
                 utilityStation.getEntityHandler().addEntity(p2b);
@@ -118,6 +120,7 @@ public class GameInputProcessor implements InputProcessor {
                 p1.removeMovementState(Constants.MSTATE.DOWN);
                 break;
             case Input.Keys.SPACE:
+                if (p1.dead) {break;}
                 if (p1b != null) {
                     p1b.release();
                 }
@@ -137,6 +140,7 @@ public class GameInputProcessor implements InputProcessor {
                 p2.removeMovementState(Constants.MSTATE.DOWN);
                 break;
             case Input.Keys.ENTER:
+                if (p2.dead) {break;}
                 if (p2b != null) {
                     p2b.release();
                 }

@@ -41,6 +41,8 @@ public class Main extends Game {
 		resourceManager.loadTexture("player/run_down_right.png", "run_down_right");
         resourceManager.loadTexture("player/run_up_right.png", "run_up_right");
         resourceManager.loadTexture("player/idle.png", "idle");
+        resourceManager.loadTexture("player/die.png", "die");
+
 
 		resourceManager.loadTexture("player/run_right2.png", "run_right2");
         resourceManager.loadTexture("player/run_down2.png", "run_down2");
@@ -48,6 +50,8 @@ public class Main extends Game {
 		resourceManager.loadTexture("player/run_down_right2.png", "run_down_right2");
         resourceManager.loadTexture("player/run_up_right2.png", "run_up_right2");
         resourceManager.loadTexture("player/idle2.png", "idle2");
+        resourceManager.loadTexture("player/die2.png", "die2");
+
 
 
 		//Start Screen buttons

@@ -10,6 +10,7 @@ import com.bubble.entities.Player;
 import com.bubble.objects.*;
 import com.bubble.world.*;
 import com.bubble.scenes.HUD;
+import com.bubble.screens.ScreenManager;
 import com.bubble.tools.MyTimer;
 import com.bubble.helpers.Constants;
 import com.bubble.tools.MyResourceManager;
@@ -23,12 +24,14 @@ public class B2WorldHandler {
     private final World world;
     private final MyResourceManager resourceManager;
     private final UtilityStation util;
+    private final ScreenManager screenManager;
 
-    public B2WorldHandler(World world, TiledMap map, MyResourceManager resourceManager, MyTimer timer, AtomicInteger eidAllocator, UtilityStation util, HUD hud, TextureDrawer textureDrawer) {
+    public B2WorldHandler(World world, TiledMap map, MyResourceManager resourceManager, MyTimer timer, AtomicInteger eidAllocator, UtilityStation util, HUD hud, TextureDrawer textureDrawer, ScreenManager screenManager) {
 
         this.world = world;
         this.resourceManager = resourceManager;
         this.util = util;
+        this.screenManager = screenManager;
 
         createPlayer(eidAllocator, timer, hud);
 
@@ -82,8 +85,8 @@ public class B2WorldHandler {
         Player p1 = null;
         Player p2 = null;
 
-        p1 = new Player(650,300,world, 1, timer, resourceManager, util);
-        p2 = new Player(600,300,world, 2, timer, resourceManager, util);
+        p1 = new Player(600,300,world, 1, timer, resourceManager, util, screenManager);
+        p2 = new Player(1300,300,world, 2, timer, resourceManager, util, screenManager);
 
         hud.setPlayers(p1,p2);
 //        util.getCharacterCycle().initialize(mage);

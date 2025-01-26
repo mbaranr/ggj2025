@@ -46,7 +46,7 @@ public class MyContactListener implements ContactListener {
                     player.takeDamage(dmg);
 
                     if (player.getHealth() <= 0) {
-                        screenManager.pushScreen(Constants.SCREEN_OP.GAME, "");
+                        player.die();
                     }
 
                     bubble.pop();
