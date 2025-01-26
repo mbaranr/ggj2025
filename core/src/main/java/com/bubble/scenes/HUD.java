@@ -58,14 +58,12 @@ public class HUD {
         batch.begin();
         font.draw(batch, "P1", 50, 2080);
         font.draw(batch, "P2", 3695, 2080);
+        if (p1.getHealth() <= 0) {
+            font.draw(batch, "Player 2 wins!", 1760, 2080);
+        } else if (p2.getHealth() <= 0) {
+            font.draw(batch, "Player 1 wins!", 1760, 2080);
+        }
         batch.end();
-        //drawHealthBar(600, 600, 300, 30, 10, Color.GREEN, Color.RED);
-//        if (p1 != null) {
-//            drawHealthBar(600, 600, 300, 30, p1.getHealth(), Color.GREEN, Color.RED);
-//        }
-//        if (p2 != null) {
-//            drawHealthBar(viewport.getWorldWidth() - 350, viewport.getWorldHeight() - 100, 300, 30, p2.getHealth(), Color.GREEN, Color.RED);
-//        }
     }
 
     public void setPlayers(Player p1, Player p2) {
@@ -89,36 +87,4 @@ public class HUD {
 
         shapeRenderer.end();
     }
-
-    // Actor used to draw lives
-//    public class LifeActor extends Actor {
-//        private final TextureRegion region;
-//        private Player p1;
-//        private Player p2;
-//
-//        public LifeActor(Texture texture) {
-//            region = new TextureRegion(texture);
-//        }
-//
-//        public void setPlayers(Player p1, Player p2) {
-//            this.p1 = p1;
-//            this.p2 = p2;
-//        }
-//
-//        @Override
-//        public void draw(Batch batch, float parentAlpha) {
-//            if (p1 == null || p2 == null) return;
-//
-//            Color color = getColor();
-//            batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-//            float x = 20;
-//            float y = viewport.getWorldHeight() - 240;
-//
-//            for (int i = 0; i < p1.getLives(); i++) {
-//                batch.draw(region, x, y, 230, 180);
-//                x += 250;
-//            }
-//        }
-//    }
-
 }

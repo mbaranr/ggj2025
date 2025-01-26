@@ -234,6 +234,7 @@ public class Bubble extends Entity implements Subscriber {
             this.shootigDirection.add(temVector.scl(0.8f));
             System.out.println(shootigDirection);
             // this.shootigDirection.scl(-0.005f);
+            // this.shootigDirection = this.b2body.getLinearVelocity();
 
             this.width += incomingBubble.width;
             this.height += incomingBubble.height;
@@ -247,11 +248,10 @@ public class Bubble extends Entity implements Subscriber {
 
     public void bounce(boolean bbl){
         
-        this.shootigDirection = this.b2body.getLinearVelocity();
         b2body.setLinearVelocity(0, 0);
 
         bounceCounter++;
-        this.merged = true;
+        // this.merged = true;
 
         if (bounceCounter == 5) {
             pop();
