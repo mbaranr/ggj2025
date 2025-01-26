@@ -154,8 +154,6 @@ public class Bubble extends Entity implements Subscriber {
         fdef.filter.categoryBits = Constants.BIT_BSENSOR;
         fdef.filter.maskBits = Constants.BIT_GROUND;
         b2body.createFixture(fdef).setUserData("hor");
-
-
     }
 
 
