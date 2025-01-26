@@ -77,7 +77,7 @@ public class GameScreen extends ManagedScreen {
         inputProcessor = new GameInputProcessor(game, screenManager, resourceManager, util, colourGenerator, world, timer);
         Gdx.input.setInputProcessor(inputProcessor);
 
-        lightManager.setDim(0.8f);  // Making the environment 40% less bright
+        lightManager.setDim(0.5f);  // Making the environment 40% less bright
     }
 
     @Override
@@ -116,7 +116,7 @@ public class GameScreen extends ManagedScreen {
         screenManager.render(delta);
 
         // Uncomment this to render fixture outlines
-        b2dr.render(world, gameCam.combined);
+        // b2dr.render(world, gameCam.combined);
 
         gameCam.position.set(Constants.TILE_SIZE * 60 / Constants.PPM / 2, Constants.TILE_SIZE * 39 / Constants.PPM / 2, 0);
         gameCam.update();

@@ -242,6 +242,7 @@ public class Bubble extends Entity implements Subscriber {
         else { // horizontal
             shootigDirection.x = shootigDirection.x * (-1);
         }
+        timer.start(0.5f, "bounce", this);
     }
 
     public void notify(String flag) {
@@ -254,6 +255,9 @@ public class Bubble extends Entity implements Subscriber {
                 states.add(Constants.BSTATE.POPPING);
                 this.pop();
                 creator = null;
+                break;
+            case "bounce":
+                states.remove(Constants.BSTATE.BOUNCING);
                 break;
         }
     }

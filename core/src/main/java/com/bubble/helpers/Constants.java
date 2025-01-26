@@ -25,7 +25,7 @@ public class Constants {
 
     // Bubbbles state flag
     public enum BSTATE {
-        POPPING, FULL, FREE, POPPED
+        POPPING, FULL, FREE, POPPED, BOUNCING
     }
     // Animation state flag
     public enum ASTATE {

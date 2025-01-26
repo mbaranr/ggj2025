@@ -62,7 +62,10 @@ public class MyContactListener implements ContactListener {
             bubble.bounce(fa.getUserData().equals("vert") ? true : false);
         } else if (fb.getUserData().equals("vert") || fb.getUserData().equals("hor")) {
             Bubble bubble = (Bubble) entityHandler.getEntity(fb.getBody());
-            bubble.bounce(fb.getUserData().equals("vert") ? true : false);
+            if (!bubble.isStateActive(Constants.BSTATE.BOUNCING)) {
+                bubble.bounce(fb.getUserData().equals("vert") ? true : false);
+                bubble.addState(Constants.BSTATE.BOUNCING);
+            }
         }
     }
 
