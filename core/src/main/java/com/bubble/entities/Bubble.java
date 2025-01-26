@@ -183,8 +183,9 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void bubbleMerge(Bubble incomingBubble) {
-        if (incomingBubble.width == this.width && incomingBubble.height == this.height) {
+        if (Math.abs(incomingBubble.width - this.width) <= 4) { // checks within a range of 16 in size
             incomingBubble.pop();
+            pop();
         }
         else{
             Vector2 temVector2 = new Vector2();
@@ -202,8 +203,14 @@ public class Bubble extends Entity implements Subscriber {
         }
     }
 
-    public void bounce(){
-        // this
+    public void bounce(boolean bbl){
+        // this.b2body.
+        if(bbl){// vertical
+            shootigDirection.y = shootigDirection.y * (-1);
+        }
+        else { // horizontal
+            shootigDirection.x = shootigDirection.x * (-1);
+        }
     }
 
     public void notify(String flag) {
