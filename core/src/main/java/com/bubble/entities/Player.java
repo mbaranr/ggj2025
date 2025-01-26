@@ -32,7 +32,7 @@ public class Player extends Entity implements Subscriber {
         this.world = world;
         this.util = util;
 
-        setAnimation(TextureRegion.split(resourceManager.getTexture((id == 2) ? "idle2" : "idle"), 32, 32)[0], 1/5f, false, 1); 
+        setAnimation(TextureRegion.split(resourceManager.getTexture((id == 2) ? "idle2" : "idle"), 32, 32)[0], 1/5f, false, 1);
 
         lives = 3;
         interactablesInRange = new LinkedList<>();
@@ -298,7 +298,7 @@ public class Player extends Entity implements Subscriber {
     }
 
     public float getHealth() {
-        return currentHealth; // Replace with your actual health variable
+        return currentHealth;
     }
 
     public void setLives(int lives) {

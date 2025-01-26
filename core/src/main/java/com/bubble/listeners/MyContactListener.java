@@ -1,6 +1,7 @@
 package com.bubble.listeners;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.bubble.helpers.Constants;
 import com.bubble.scenes.HUD;
 import com.bubble.screens.ScreenManager;
 import com.bubble.tools.MyResourceManager;
@@ -43,6 +44,11 @@ public class MyContactListener implements ContactListener {
                 if (bubble.creator != player) {
                     float dmg = bubble.damage();
                     player.takeDamage(dmg);
+
+                    if (player.getHealth() <= 0) {
+                        screenManager.pushScreen(Constants.SCREEN_OP.GAME, "slide_left");
+                    }
+
                     bubble.pop();
                     return;
                 }
