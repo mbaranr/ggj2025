@@ -76,9 +76,9 @@ public class StartScreen extends ManagedScreen {
 
         buttons = new Array<>();
 
-        initButton("UnclickedPlayButton", "HoverPlayButton", "ClickedPlayButton", 100, buttonWidth, buttonHeight, Constants.SCREEN_OP.GAME);
+        initButton("UnclickedPlayButton", "HoverPlayButton", "ClickedPlayButton", 150, buttonWidth, buttonHeight, Constants.SCREEN_OP.GAME);
 
-        initButton("UnclickedExitButton", "HoverExitButton", "ClickedExitButton", 300, buttonWidth, buttonHeight, Constants.SCREEN_OP.EXIT);
+        initButton("UnclickedExitButton", "HoverExitButton", "ClickedExitButton", 350, buttonWidth, buttonHeight, Constants.SCREEN_OP.EXIT);
     }
 
     public void update(float delta) {

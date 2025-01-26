@@ -245,7 +245,7 @@ public class Bubble extends Entity implements Subscriber {
         b2body.setLinearVelocity(0, 0);
         bounceCounter++;
 
-        if (bounceCounter == 3) {
+        if (bounceCounter == 5) {
             pop();
             return;
         }
