@@ -91,7 +91,7 @@ public class EntityHandler {
                 if (((Bubble) entity).isStateActive(Constants.BSTATE.FULL)) {
                     batch.setShader(shaderHandler.getShaderProgram("blink"));
                 } else {
-                    batch.setShader(shaderHandler.getShaderProgram("water"));
+                    batch.setShader(shaderHandler.getShaderProgram("rand_col"));
                 }
             }
             entity.render(batch);

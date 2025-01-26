@@ -32,11 +32,7 @@ public class Player extends Entity implements Subscriber {
         this.world = world;
         this.util = util;
 
-
-
-        if (id == 1){
-            setAnimation(TextureRegion.split(resourceManager.getTexture("idle"), 32, 32)[0], 1/5f, false, 1);
-        } else if (id == 2){ setAnimation(TextureRegion.split(resourceManager.getTexture("idle"), 32, 32)[0], 1/5f, false, 1); }
+        setAnimation(TextureRegion.split(resourceManager.getTexture((id == 2) ? "idle2" : "idle"), 32, 32)[0], 1/5f, false, 1);
 
         lives = 3;
         interactablesInRange = new LinkedList<>();
@@ -143,26 +139,26 @@ public class Player extends Entity implements Subscriber {
     public void handleAnimation() {
         switch (currAState) {
             case RUN_DOWN:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("run_down"), 32, 32)[0], 1/5f, false, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture((ID == 2) ? "run_down2" : "run_down"), 32, 32)[0], 1/5f, false, 1);
                 break;
             case RUN_UP:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("run_up"), 32, 32)[0], 1/5f, false, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture((ID == 2) ? "run_up2" : "run_up"), 32, 32)[0], 1/5f, false, 1);
                 break;
             case RUN_RIGHT:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("run_right"), 32, 32)[0], 1/5f, false, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture((ID == 2) ? "run_right2" : "run_right"), 32, 32)[0], 1/5f, false, 1);
                 break;
             case RUN_UP_RIGHT:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("run_up_right"), 32, 32)[0], 1/5f, false, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture((ID == 2) ? "run_up_right2" : "run_up_right"), 32, 32)[0], 1/5f, false, 1);
                 break;
             case RUN_DOWN_RIGHT:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("run_down_right"), 32, 32)[0], 1/5f, false, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture((ID == 2) ? "run_down_right2" : "run_down_right"), 32, 32)[0], 1/5f, false, 1);
                 break;
             case IDLE_DOWN:
             case IDLE_RIGHT:
             case IDLE_UP:
             case IDLE_DOWN_RIGHT:
             case IDLE_UP_RIGHT:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("idle"), 32, 32)[0], 1/5f, false, 1);
+                setAnimation(TextureRegion.split(resourceManager.getTexture((ID == 2) ? "idle2" : "idle"), 32, 32)[0], 1/5f, false, 1);
             default:
                 break;
         }
@@ -302,7 +298,7 @@ public class Player extends Entity implements Subscriber {
     }
 
     public float getHealth() {
-        return currentHealth; // Replace with your actual health variable
+        return currentHealth;
     }
 
     public void setLives(int lives) {

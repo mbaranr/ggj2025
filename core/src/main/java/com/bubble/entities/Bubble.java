@@ -2,14 +2,21 @@ package com.bubble.entities;
 
 import java.util.EnumSet;
 
+import javax.swing.text.Utilities;
+
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.bubble.helpers.Constants;
 import com.bubble.helpers.Subscriber;
+import com.bubble.tools.ColourGenerator;
 import com.bubble.tools.MyResourceManager;
 import com.bubble.tools.MyTimer;
+import com.bubble.tools.UtilityStation;
 import com.bubble.world.EntityHandler;
+
+import box2dLight.PointLight;
 
 public class Bubble extends Entity implements Subscriber {
     private final MyTimer timer;
@@ -18,18 +25,19 @@ public class Bubble extends Entity implements Subscriber {
     private CircleShape circle;
     private FixtureDef fdef;
     private EnumSet<Constants.BSTATE> states;       // Set of player states
-    private EntityHandler entityHandler;
+    private UtilityStation utilityStation;
     public Player creator;
     private Vector2 shootigDirection;
     private int bounceCounter;
+    private PointLight light;
 
-    public Bubble(World world, int id, MyTimer timer, MyResourceManager myResourceManager, EntityHandler entityHandler, Player creator) {
+    public Bubble(World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation utilityStation, Player creator, ColourGenerator colourGenerator) {
         super(id, myResourceManager);
         this.timer = timer;
         this.world = world;
         this.growing = true;
         states = EnumSet.noneOf(Constants.BSTATE.class);
-        this.entityHandler = entityHandler;
+        this.utilityStation = utilityStation;
         this.creator = creator;
         this.shootigDirection = new Vector2(0,0);
         //time to live
@@ -58,10 +66,12 @@ public class Bubble extends Entity implements Subscriber {
         fdef.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_GROUND | Constants.BIT_HAZARD;
         b2body.createFixture(fdef).setUserData(this);
 
+        light = utilityStation.getLightManager().addPointLight(b2body, 25, Constants.BIT_GROUND, new Color(colourGenerator.getCurrentColour().x / 255 ,colourGenerator.getCurrentColour().y / 255, colourGenerator.getCurrentColour().z / 255, 0.5f));
     }
 
 
     public void handlePosition() {
+        if (creator == null) {return;}
         switch (creator.getCurrAState()) {
             case RUN_RIGHT:
             case IDLE_RIGHT:
@@ -116,6 +126,37 @@ public class Bubble extends Entity implements Subscriber {
         }
     }
 
+    public void release() {
+        addState(Constants.BSTATE.FREE);
+        FixtureDef sensor = new FixtureDef();
+
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(width /2.5f / Constants.PPM, width/10/ Constants.PPM, new Vector2(0, width/2/ Constants.PPM), 0);
+        fdef.shape = polygonShape;
+        fdef.filter.categoryBits = Constants.BIT_BSENSOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("vert");
+
+        polygonShape.setAsBox(width /2.5f/ Constants.PPM, width/10/ Constants.PPM, new Vector2(0, -width/2/ Constants.PPM), 0);
+        fdef.shape = polygonShape;
+        fdef.filter.categoryBits = Constants.BIT_BSENSOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("vert");
+
+        polygonShape.setAsBox(width/10/ Constants.PPM, width /2.5f/ Constants.PPM, new Vector2(width/2/ Constants.PPM, 0), 0);
+        fdef.shape = polygonShape;
+        fdef.filter.categoryBits = Constants.BIT_BSENSOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("hor");
+
+        polygonShape.setAsBox(width/10/ Constants.PPM, width /2.5f/ Constants.PPM, new Vector2(-width/2/ Constants.PPM, 0), 0);
+        fdef.shape = polygonShape;
+        fdef.filter.categoryBits = Constants.BIT_BSENSOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("hor");
+    }
+
+
     public float damage() {
         float sizeFactor = Math.min(this.resize / 0.05f, 1.0f);
         float dmg = 0.5f + (sizeFactor * 9.5f);
@@ -126,7 +167,7 @@ public class Bubble extends Entity implements Subscriber {
     public void pop() {
         if (!isStateActive(Constants.BSTATE.POPPED)) {
             states.add(Constants.BSTATE.POPPED);
-            entityHandler.addEntityOperation(this, "pop");
+            utilityStation.getEntityHandler().addEntityOperation(this, "pop");
         }
     }
 
@@ -157,7 +198,7 @@ public class Bubble extends Entity implements Subscriber {
 
                 if (this.resize >= 0.05f) {
                     states.add(Constants.BSTATE.FULL);
-                    timer.start(Constants.TTP, "pop", this);
+                    timer.start(Constants.TTP, "full", this);
                 }
             }
         }
@@ -168,6 +209,7 @@ public class Bubble extends Entity implements Subscriber {
     }
 
     public void die() {
+        utilityStation.getParticleHandler().addParticleEffect("bubble", b2body.getPosition().x, b2body.getPosition().y, resize / 18);
         world.destroyBody(b2body);
     }
 
@@ -201,7 +243,10 @@ public class Bubble extends Entity implements Subscriber {
                 states.add(Constants.BSTATE.POPPING);
                 this.pop();
                 break;
-            case "merge":
+            case "full":
+                states.add(Constants.BSTATE.POPPING);
+                this.pop();
+                creator = null;
                 break;
         }
     }

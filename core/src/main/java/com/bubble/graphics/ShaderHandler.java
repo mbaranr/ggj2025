@@ -76,6 +76,9 @@ public class ShaderHandler {
 
         blinkShader.bind();
         blinkShader.setUniformf("u_time", time);
+        randColShader.setUniformf("r", colourGenerator.getCurrentColour().x);
+        randColShader.setUniformf("g", colourGenerator.getCurrentColour().y);
+        randColShader.setUniformf("b", colourGenerator.getCurrentColour().z);
 
         alphaShader.bind();
         alphaShader.setUniformf("u_time", time);

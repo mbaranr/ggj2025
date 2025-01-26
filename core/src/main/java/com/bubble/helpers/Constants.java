@@ -10,8 +10,8 @@ public class Constants {
     public static final float BUTTON_WIDTH = 250;       //Button width
     public static final float BUTTON_HEIGHT = 175.5f;   //Button height
     public static final float BUBBLE_GR = 0.0005f;      //Bubble growth rate
-    public static final float TTP = 5;                  //Time to pop
-    public static final float BUBBLE_SPEED = 0.2f;
+    public static final float TTP = 4;                  //Time to pop
+    public static final float BUBBLE_SPEED = 0.15f;
 
     // Movement state Flag
     public enum MSTATE {
@@ -45,4 +45,5 @@ public class Constants {
     public static final short BIT_HAZARD = 4;
     public static final short BIT_PLAYER = 8;
     public static final short BIT_LIGHT = 16;
+    public static final short BIT_BSENSOR = 32;
 }
