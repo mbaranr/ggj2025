@@ -2,8 +2,6 @@ package com.bubble.entities;
 
 import java.util.EnumSet;
 
-import javax.swing.text.Utilities;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -14,14 +12,10 @@ import com.bubble.tools.ColourGenerator;
 import com.bubble.tools.MyResourceManager;
 import com.bubble.tools.MyTimer;
 import com.bubble.tools.UtilityStation;
-import com.bubble.world.EntityHandler;
-
-import box2dLight.PointLight;
 
 public class Bubble extends Entity implements Subscriber {
     private final MyTimer timer;
     private final World world;
-    private boolean growing; // wont need if we just call from player class
     private CircleShape circle;
     private FixtureDef fdef;
     private EnumSet<Constants.BSTATE> states;       // Set of player states
@@ -29,14 +23,12 @@ public class Bubble extends Entity implements Subscriber {
     public Player creator;
     private Vector2 shootigDirection;
     private int bounceCounter;
-    private PointLight light;
     private boolean merged;
 
     public Bubble(World world, int id, MyTimer timer, MyResourceManager myResourceManager, UtilityStation utilityStation, Player creator, ColourGenerator colourGenerator) {
         super(id, myResourceManager);
         this.timer = timer;
         this.world = world;
-        this.growing = true;
         states = EnumSet.noneOf(Constants.BSTATE.class);
         this.utilityStation = utilityStation;
         this.creator = creator;
@@ -69,7 +61,7 @@ public class Bubble extends Entity implements Subscriber {
         fdef.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_GROUND | Constants.BIT_HAZARD;
         b2body.createFixture(fdef).setUserData(this);
 
-        light = utilityStation.getLightManager().addPointLight(b2body, 25, Constants.BIT_GROUND, new Color(colourGenerator.getCurrentColour().x / 255 ,colourGenerator.getCurrentColour().y / 255, colourGenerator.getCurrentColour().z / 255, 0.5f));
+        utilityStation.getLightManager().addPointLight(b2body, 25, Constants.BIT_GROUND, new Color(colourGenerator.getCurrentColour().x / 255 ,colourGenerator.getCurrentColour().y / 255, colourGenerator.getCurrentColour().z / 255, 0.5f));
     }
 
 
@@ -131,7 +123,6 @@ public class Bubble extends Entity implements Subscriber {
 
     public void release() {
         addState(Constants.BSTATE.FREE);
-        FixtureDef sensor = new FixtureDef();
 
         PolygonShape polygonShape = new PolygonShape();
         polygonShape.setAsBox(width /2.5f / Constants.PPM, width/10/ Constants.PPM, new Vector2(0, width/2/ Constants.PPM), 0);
@@ -230,11 +221,8 @@ public class Bubble extends Entity implements Subscriber {
             Vector2 temVector = new Vector2();
             temVector = (incomingBubble.width > this.width) ?  incomingBubble.b2body.getLinearVelocity() : this.b2body.getLinearVelocity();
             System.out.println(shootigDirection + " " + temVector);
-            // this.shootigDirection.scl(10);
             this.shootigDirection.add(temVector.scl(0.8f));
             System.out.println(shootigDirection);
-            // this.shootigDirection.scl(-0.005f);
-            // this.shootigDirection = this.b2body.getLinearVelocity();
 
             this.width += incomingBubble.width;
             this.height += incomingBubble.height;

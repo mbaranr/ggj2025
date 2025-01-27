@@ -16,15 +16,9 @@ public class MyContactListener implements ContactListener {
     private Fixture fa;
     private Fixture fb;
     private final UtilityStation util;
-    private final HUD hud;
-    private final ScreenManager screenManager;
-    private final MyResourceManager resourceManager;
 
     public MyContactListener(UtilityStation util, HUD hud, ScreenManager screenManager, MyResourceManager resourceManager) {
         this.util = util;
-        this.hud = hud;
-        this.screenManager = screenManager;
-        this.resourceManager = resourceManager;
     }
 
     // Triggers when a fixture collides with a sensor
@@ -32,8 +26,6 @@ public class MyContactListener implements ContactListener {
     public void beginContact(Contact contact) {
 
         if (handleFixtures(contact)) return;
-
-        Player character;
 
         EntityHandler entityHandler = util.getEntityHandler();
 
@@ -72,12 +64,6 @@ public class MyContactListener implements ContactListener {
     // Triggered when a fixture stops colliding with a sensor
     @Override
     public void endContact(Contact contact) {
-
-        if (handleFixtures(contact)) return;
-
-        Player character;
-
-        EntityHandler entityHandler = util.getEntityHandler();
 
     }
 

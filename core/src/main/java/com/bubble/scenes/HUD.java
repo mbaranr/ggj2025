@@ -1,29 +1,20 @@
 package com.bubble.scenes;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bubble.entities.Player;
-import com.bubble.graphics.ShaderHandler;
-import com.bubble.tools.ColourGenerator;
 import com.bubble.tools.MyResourceManager;
-import com.bubble.world.EntityHandler;
 
 public class HUD {
 
     public Stage stage;
     private final Viewport viewport;
-    private final MyResourceManager resourceManager;
     private final ShapeRenderer shapeRenderer; // Class-level variable
     private final BitmapFont font;
 
@@ -32,23 +23,13 @@ public class HUD {
     // private final LifeActor lifeActor;
 
     public HUD(SpriteBatch batch, MyResourceManager resourceManager) {
-        this.resourceManager = resourceManager;
-
         viewport = new FitViewport(3840, 2160, new OrthographicCamera());
         stage = new Stage(viewport, batch);
         shapeRenderer = new ShapeRenderer();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
-
-        // lifeActor = new LifeActor(resourceManager.getTexture("life"));
-        // stage.addActor(lifeActor);
-
-
     }
-
-
-    // public void setPlayers(Player player1, Player player2) { lifeActor.setPlayers(player1, player2); }
 
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(stage.getCamera().combined);

@@ -13,7 +13,6 @@ import com.bubble.tools.UtilityStation;
 import com.bubble.Main;
 import com.bubble.screens.GameScreen;
 import com.bubble.helpers.Constants;
-import com.bubble.world.EntityHandler;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // Game screen input processor
@@ -21,7 +20,6 @@ public class GameInputProcessor implements InputProcessor {
 
     private static final AtomicInteger idCounter = new AtomicInteger(1); // Static ID counter for all bubbles
     private final Main game;
-    private final ScreenManager screenManager;
     private final MyResourceManager resourceManager;
     private final Player p1;
     private final Player p2;
@@ -35,7 +33,6 @@ public class GameInputProcessor implements InputProcessor {
 
     public GameInputProcessor(Main game, ScreenManager screenManager, MyResourceManager resourceManager, UtilityStation utilityStation, ColourGenerator colourGenerator, World world, MyTimer timer) {
         this.game = game;
-        this.screenManager = screenManager;
         this.resourceManager = resourceManager;
         this.utilityStation = utilityStation;
         this.p1 = utilityStation.getEntityHandler().getPlayer1();
